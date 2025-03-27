@@ -1,0 +1,21 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "rmatzke-videos"
+version = "0.0.1"
+description = ""
+authors = ["Ryan Matzke <ryma1984@colorado.edu>"]
+packages = [
+    { include = "rmatzke" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+
+[tool.pyright]
+reportMissingTypeArgument = true  # Report generic classes used without type arguments
+strictListInference = true  # Use union types when inferring types of lists elements, instead of Any
+
+# TODO: exclude tests

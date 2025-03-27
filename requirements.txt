@@ -1,0 +1,5 @@
+black==25.1.0
+coverage==7.7.1
+flake8==7.1.2
+isort==6.0.1
+pyright[nodejs]==1.1.398
