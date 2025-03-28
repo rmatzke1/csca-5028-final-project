@@ -1,6 +1,6 @@
-# Collector
+# Data Collector
 
-Data Collection Job
+Data Collection Application
 
 ## Development
 
@@ -8,27 +8,27 @@ Data Collection Job
 
 Windows
 ```
-cd applications\collector
+cd applications\data-collector
 python -m venv .venv
 .venv\Scripts\activate
 ```
 
-Linux:
+Mac/Linux
 ```
-cd applications/collector
+cd applications/data-collector
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
 ### Install Dependencies
 
-Windows:
+Windows
 ```
 pip install -r ..\..\requirements.txt
 pip install -r requirements.txt
 ```
 
-Linux
+Mac/Linux
 ```
 pip install -r ../../requirements.txt
 pip install -r requirements.txt
@@ -49,4 +49,16 @@ pyright .
 coverage run -m unittest discover
 coverage report -m      # Print report
 coverage html           # Generate HTML report
+```
+
+### Run
+
+Windows
+```
+python src\main.py
+```
+
+Mac/Linux
+```
+python src/main.py
 ```

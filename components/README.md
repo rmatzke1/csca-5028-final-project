@@ -1,6 +1,4 @@
-# Videos
-
-Video Components
+# Components
 
 ## Development
 
@@ -8,29 +6,29 @@ Video Components
 
 Windows
 ```
-cd components\videos
+cd components
 python -m venv .venv
 .venv\Scripts\activate
 ```
 
-Linux:
+Mac/Linux
 ```
-cd components/videos
+cd components
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
 ### Install Dependencies
 
-Windows:
+Windows
 ```
-pip install -r ..\..\requirements.txt
+pip install -r ..\requirements.txt
 pip install -r requirements.txt
 ```
 
-Linux
+Mac/Linux
 ```
-pip install -r ../../requirements.txt
+pip install -r ../requirements.txt
 pip install -r requirements.txt
 ```
 
