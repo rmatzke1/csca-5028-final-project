@@ -107,3 +107,10 @@ Now you can run SQL commands, for example:
 select * from youtube_channel;
 select * from collector_run;
 ```
+
+## Credits
+
+- [initialcapacity/multiproject-python](https://github.com/initialcapacity/multiproject-python) - for providing
+ideas on how to structure the project/repository, and for providing some boilerplate code.
+- [Python Monorepo: An Example](https://www.tweag.io/blog/2023-04-04-python-monorepo-1/) - for providing ideas
+on how to structure the project/repository.
