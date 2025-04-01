@@ -1,6 +1,6 @@
 name: csca-5028-final-project
 services:
-  db:
+  postgres:
     image: postgres:14.3
     container_name: movie-recap-database
     restart: always
@@ -12,3 +12,11 @@ services:
     volumes:
       - ../.docker-data/.pg-data:/var/lib/postgresql/data
       - ../databases/movie-recaps/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+  redis:
+    image: redis:7.4
+    container_name: movie-recap-datastore
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ../.docker-data/.redis-data:/data
