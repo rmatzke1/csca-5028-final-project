@@ -1,9 +1,10 @@
 [tool.black]
 line-length = 100
 target-version = ['py312']
+extend-exclude = "alembic"
 
 [tool.pylint."messages control"]
-ignore = ["setup.py", "__init__.py"]
+ignore = ["setup.py", "__init__.py", "alembic"]
 disable = "all"
 enable = [
   "empty-docstring",

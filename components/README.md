@@ -2,6 +2,8 @@
 
 ## Development
 
+Open a new terminal before running the commands below.
+
 ### Setup Virtual Environment
 
 Windows

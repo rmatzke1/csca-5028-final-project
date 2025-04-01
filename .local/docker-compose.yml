@@ -1,0 +1,14 @@
+name: csca-5028-final-project
+services:
+  db:
+    image: postgres:14.3
+    container_name: movie-recap-database
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ../.docker-data/.pg-data:/var/lib/postgresql/data
+      - ../databases/movie-recaps/init.sql:/docker-entrypoint-initdb.d/create_tables.sql

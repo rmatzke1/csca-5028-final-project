@@ -1,8 +1,8 @@
 # Data Collector
 
-Data Collection Application
-
 ## Development
+
+Open a new terminal before running the commands below.
 
 ### Setup Virtual Environment
 
@@ -49,16 +49,4 @@ pyright .
 coverage run -m unittest discover
 coverage report -m      # Print report
 coverage html           # Generate HTML report
-```
-
-### Run
-
-Windows
-```
-python src\main.py
-```
-
-Mac/Linux
-```
-python src/main.py
 ```
