@@ -86,11 +86,8 @@ the `.docker-data` directory.
 
 #### Unit Tests
 
-```
-coverage run -m unittest discover
-coverage report -m      # Print report
-coverage html           # Generate HTML report
-```
+Unit tests will need to be executed from within each subproject directory. See the README for each subproject
+for more information.
 
 #### Database Queries
 

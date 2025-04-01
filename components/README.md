@@ -33,3 +33,13 @@ Mac/Linux
 pip install -r ../requirements.txt
 pip install -r requirements.txt
 ```
+
+### Validation
+
+#### Unit Tests
+
+```
+coverage run -m unittest discover
+coverage report -m      # Print report
+coverage html           # Generate HTML report
+```
