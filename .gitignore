@@ -1,8 +1,8 @@
+__pycache__
+.docker-data
 .idea
 .venv
-__pycache__
 .pytest_cache
 .coverage
 htmlcov
 .env
-.docker-data

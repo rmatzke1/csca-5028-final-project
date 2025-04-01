@@ -1,6 +1,6 @@
+from sqlalchemy import CursorResult, RowMapping
 from typing import Callable, List, Optional, TypeVar
 
-from sqlalchemy import CursorResult, RowMapping
 
 T = TypeVar("T")
 

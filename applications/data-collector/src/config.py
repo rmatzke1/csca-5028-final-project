@@ -1,5 +1,6 @@
 import os
 
+
 cfg = {
     "YOUTUBE_API_KEY": os.getenv("YOUTUBE_API_KEY"),
     "DATABASE_URI": os.getenv("DATABASE_URI"),

@@ -1,8 +1,7 @@
-from datetime import datetime
-from typing import List
-
 import requests
 from config import cfg
+from datetime import datetime
+from typing import List
 
 
 def get_channel_id_by_handle(handle: str) -> str:

@@ -1,9 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, Union
-
 from sqlalchemy import Connection
-
+from typing import Optional, Union
 from rmatzke.components.common.mapper_funcs import map_result
 from rmatzke.components.common.templates import DBTemplate
 

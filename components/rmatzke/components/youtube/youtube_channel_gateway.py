@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Optional
-
 from sqlalchemy import Connection
-
 from rmatzke.components.common.mapper_funcs import map_results
 from rmatzke.components.common.templates import DBTemplate
 

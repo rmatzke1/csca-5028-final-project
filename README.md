@@ -84,17 +84,26 @@ the `.docker-data` directory.
 
 ### Validation
 
-The following commands can help with formatting, linting, tests, etc.
+#### Unit Tests
 
 ```
-# Linting, formatting, etc.
-black --check .
-flake8 .
-isort --check-only .
-pyright .
-
-# Unit tests
 coverage run -m unittest discover
 coverage report -m      # Print report
 coverage html           # Generate HTML report
+```
+
+#### Database Queries
+
+To connect to the PostgreSQL database running in your container, first open the movie-recap-database container 
+in Docker Desktop, then navigate to the Exec tab, then enter the following commands:
+
+```
+psql -U db_user -d movie_recaps_dev
+```
+
+Now you can run SQL commands, for example:
+
+```
+select * from youtube_channel;
+select * from collector_run;
 ```

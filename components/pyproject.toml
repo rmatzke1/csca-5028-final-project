@@ -15,7 +15,3 @@ packages = [
 python = ">=3.10"
 psycopg2 = "2.9.10"
 SQLAlchemy = "2.0.40"
-
-[tool.pyright]
-reportMissingTypeArgument = true  # Report generic classes used without type arguments
-strictListInference = true  # Use union types when inferring types of lists elements, instead of Any
