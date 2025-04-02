@@ -3,7 +3,7 @@
 For my final project, I have decided to create a movie recap application. This application contains:
 
 - **Data Collector** - Pulls latest videos from a collection of YouTube movie recap channels.
-- **Data Analyzer** - Analyzes the collected videos to determine things like genre, actors, etc.
+- **Data Analyzer** - Analyzes the collected recap videos to determine the genre.
 - **Web Application** - Frontend for displaying the movie recaps.
 
 ## Development
@@ -68,19 +68,21 @@ the following Python run configurations.
 | Working directory    | `/<path-to-project>/applications/data-collector`                              |
 | Path to ".env" files | `/<path-to-project>/.local/.env`                                              |
 
-### Database
+### Docker Container
 
-Run this command to create a local database using the docker compose file.
+Run this command to create a container for the application:
 
 ```
 docker-compose -f .local/docker-compose.yml up -d
 ```
 
-After the database is created, you will need to run the **db-migration** run configuration.
+This will create a PostgreSQL database and a Redis instance.
+
+The first time you create this container, you will also need to run the **db-migration** run configuration.
 This will execute the database migration scripts which will update your local database to the latest state.
 
-Note that if you have previously created a database and want to start from scratch, you should delete 
-the `.docker-data` directory.
+If you have previously created a container and want to start from scratch, you should delete both the container
+and the local `.docker-data` directory before building a new one. 
 
 ### Validation
 
@@ -98,12 +100,25 @@ in Docker Desktop, then navigate to the Exec tab, then enter the following comma
 psql -U db_user -d movie_recaps_dev
 ```
 
-Now you can run SQL commands, for example:
+Now you can run psql commands or raw queries, for example:
 
 ```
+\dt
 select * from youtube_channel;
 select * from collector_run;
 ```
+
+#### Datastore Queries
+
+To connect to the Redis datastore running in your container, first open the movie-recap-datastore container 
+in Docker Desktop, then navigate to the Exec tab. Below are some sample commands you can run:
+
+```
+redis-cli --scan                # List keys
+redis-cli TYPE video_data       # Get type of video_data key
+redis-cli SMEMBERS video_data   # Get values in video_data set
+```
+
 
 ## Credits
 

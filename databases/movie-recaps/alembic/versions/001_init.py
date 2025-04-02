@@ -22,10 +22,10 @@ def upgrade() -> None:
         """
         create table youtube_channel (
             id serial primary key,
-            handle varchar(255) not null unique
+            youtube_handle varchar(255) not null unique
         );
 
-        insert into youtube_channel (handle) values
+        insert into youtube_channel (youtube_handle) values
             ('movierecapsofficial'),
             ('mysteryrecappedofficial'),
             ('themovierecapofficial'),
@@ -50,4 +50,9 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    pass
+    op.execute(
+        """
+        drop table if exists collector_run;
+        drop table if exists youtube_channel;
+        """
+    )

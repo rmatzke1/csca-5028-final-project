@@ -42,7 +42,7 @@ class CollectorRunGateway:
             run_end=run_end,
             param_published_before=param_published_before,
             param_published_after=param_published_after,
-            video_count=video_count,
+            video_count=video_count
         )
 
     def get_latest(self, conn: Optional[Connection] = None) -> Union[None, CollectorRunRecord]:
@@ -60,6 +60,6 @@ class CollectorRunGateway:
                 run_end=row["run_end"],
                 param_published_before=row["param_published_before"],
                 param_published_after=row["param_published_after"],
-                video_count=row["video_count"],
-            ),
+                video_count=row["video_count"]
+            )
         )
