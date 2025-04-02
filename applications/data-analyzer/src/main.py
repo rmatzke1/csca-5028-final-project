@@ -26,7 +26,11 @@ def main():
     genres_prompt_str = ", ".join([g.genre for g in genres])
 
     # Get the video data
-    video_record = rdb.srandmember(cfg["REDIS_SET_KEY"])
+    video_record = rdb.spop(cfg["REDIS_SET_KEY"])
+    if not video_record:
+        print("No videos available to analyze. Exiting.")
+        exit()
+
     video_data = json.loads(video_record)
     youtube_video_id = video_data['id']['videoId']
     youtube_channel_id = video_data['snippet']['channelId']

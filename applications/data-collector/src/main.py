@@ -36,7 +36,7 @@ def main():
         published_after = published_before - timedelta(days=cfg["COLLECTOR_RUN_DELTA"])
 
     if published_after > datetime.now():
-        print("All currently published video have already been collected. Exiting...")
+        print("All currently published video have already been collected. Exiting.")
         exit()
 
     run_start = datetime.now()
