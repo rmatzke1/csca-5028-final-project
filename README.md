@@ -30,9 +30,11 @@ Then, fill in all the required values in the file.
 Each subproject for this application will use a separate virtual environment.
 To set up these virtual environments, follow the instructions in the README file for each subproject below.
 
-- [databases/movie-recaps](./databases/movie-recaps/README.md)
-- [components](./components/README.md)
+- [applications/data-analyzer](./applications/data-analyzer/README.md)
 - [applications/data-collector](./applications/data-collector/README.md)
+- [applications/rest-api](./applications/rest-api/README.md)
+- [components](./components/README.md)
+- [databases/movie-recaps](./databases/movie-recaps/README.md)
 
 Note that there is a requirements file in the root of the repository as well as in each subproject.
 The one in the root is for project-wide dependencies. This would mostly be things like linting, formatting, etc.
@@ -48,15 +50,15 @@ environment to the project. This can be done in File -> Settings -> Project -> P
 Once the virtual environment interpreters have been added, go to Run -> Edit Configurations to create each of
 the following Python run configurations.
 
-#### db-migration
+#### data-analyzer
 
-| Property             | Value                                                                    |
-|----------------------|--------------------------------------------------------------------------|
-| Name                 | db-migration                                                             |
-| Interpreter          | Select the virtual environment in the `databases/movie-recaps` directory |
-| Script               | `/<path-to-project>/databases/movie-recaps/migrate.py`                   |
-| Working directory    | `/<path-to-project>/databases/movie-recaps`                              |
-| Path to ".env" files | `/<path-to-project>/.local/.env`                                         |
+| Property             | Value                                                                        |
+|----------------------|------------------------------------------------------------------------------|
+| Name                 | data-analyzer                                                                |
+| Interpreter          | Select the virtual environment in the `applications/data-analyzer` directory |
+| Script               | `/<path-to-project>/applications/data-analyzer/src/main.py`                  |
+| Working directory    | `/<path-to-project>/applications/data-analyzer`                              |
+| Path to ".env" files | `/<path-to-project>/.local/.env`                                             |
 
 #### data-collector
 
@@ -68,18 +70,47 @@ the following Python run configurations.
 | Working directory    | `/<path-to-project>/applications/data-collector`                              |
 | Path to ".env" files | `/<path-to-project>/.local/.env`                                              |
 
+#### rest-api
+
+| Property             | Value                                                                   |
+|----------------------|-------------------------------------------------------------------------|
+| Name                 | rest-api                                                                |
+| Interpreter          | Select the virtual environment in the `applications/rest-api` directory |
+| Script               | `/<path-to-project>/applications/rest-api/src/main.py`                  |
+| Working directory    | `/<path-to-project>/applications/rest-api`                              |
+| Path to ".env" files | `/<path-to-project>/.local/.env`                                        |
+
+#### db-migration
+
+| Property             | Value                                                                    |
+|----------------------|--------------------------------------------------------------------------|
+| Name                 | db-migration                                                             |
+| Interpreter          | Select the virtual environment in the `databases/movie-recaps` directory |
+| Script               | `/<path-to-project>/databases/movie-recaps/migrate.py`                   |
+| Working directory    | `/<path-to-project>/databases/movie-recaps`                              |
+| Path to ".env" files | `/<path-to-project>/.local/.env`                                         |
+
 ### Docker Container
 
 Run this command to create a container for the application:
-
 ```
 docker-compose -f .local/docker-compose.yml up -d
 ```
 
-This will create a PostgreSQL database and a Redis instance.
-
 The first time you create this container, you will also need to run the **db-migration** run configuration.
 This will execute the database migration scripts which will update your local database to the latest state.
+
+Additional container management commands:
+```
+# Stop the container withour removing
+docker-compose -f .local/docker-compose.yml stop
+
+# Restart the stopped container
+docker-compose -f .local/docker-compose.yml start
+
+# Remove the container
+docker-compose -f .local/docker-compose.yml down
+```
 
 If you have previously created a container and want to start from scratch, you should delete both the container
 and the local `.docker-data` directory before building a new one. 
@@ -105,7 +136,6 @@ Now you can run psql commands or raw queries, for example:
 ```
 \dt
 select * from youtube_channel;
-select * from collector_run;
 ```
 
 #### Datastore Queries

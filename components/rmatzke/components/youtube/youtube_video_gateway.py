@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional, Union
 from sqlalchemy import Connection
-from rmatzke.components.common.mapper_funcs import map_result
+from rmatzke.components.common.mapper_funcs import map_result, map_results
 from rmatzke.components.common.templates import DBTemplate
 
 
@@ -17,6 +17,22 @@ class YoutubeVideoRecord:
 class YoutubeVideoGateway:
     def __init__(self, db: DBTemplate) -> None:
         self.__db = db
+
+    def list_all(self, conn: Optional[Connection] = None) -> List[YoutubeVideoRecord]:
+        query = """
+            select * from youtube_video;
+        """
+        result = self.__db.query(statement=query, connection=conn)
+        return map_results(
+            result, lambda row: YoutubeVideoRecord(
+                id=row["id"],
+                youtube_video_id=row["youtube_video_id"],
+                youtube_channel_id=row["youtube_channel_id"],
+                title=row["title"],
+                description=row["description"]
+            )
+        )
+
 
     def insert(
         self,

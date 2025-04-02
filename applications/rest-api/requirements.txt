@@ -1,0 +1,4 @@
+-e ../../components
+fastapi[standard]==0.115.12
+SQLAlchemy==2.0.40
+uvicorn==0.34.0

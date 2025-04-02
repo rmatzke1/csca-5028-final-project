@@ -1,0 +1,45 @@
+# REST API
+
+## Development
+
+Open a new terminal before running the commands below.
+
+### Setup Virtual Environment
+
+Windows
+```
+cd applications\rest-api
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+Mac/Linux
+```
+cd applications/rest-api
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### Install Dependencies
+
+Windows
+```
+pip install -r ..\..\requirements.txt
+pip install -r requirements.txt
+```
+
+Mac/Linux
+```
+pip install -r ../../requirements.txt
+pip install -r requirements.txt
+```
+
+### Validation
+
+#### Unit Tests
+
+```
+coverage run -m unittest discover
+coverage report -m      # Print report
+coverage html           # Generate HTML report
+```
