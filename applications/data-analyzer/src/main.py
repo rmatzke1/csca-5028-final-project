@@ -32,8 +32,6 @@ def main():
         exit()
 
     video_data = json.loads(video_record)
-    youtube_video_id = video_data['id']['videoId']
-    youtube_channel_id = video_data['snippet']['channelId']
     video_title = video_data['snippet']['title']
     video_description = video_data['snippet']['description']
 
@@ -54,10 +52,12 @@ def main():
 
     # Insert the video record
     youtube_video_record = youtube_video_gateway.insert(
-        youtube_video_id=youtube_video_id,
-        youtube_channel_id=youtube_channel_id,
+        youtube_video_id=video_data['id']['videoId'],
+        youtube_channel_id=video_data['snippet']['channelId'],
         title=video_title,
-        description=video_description
+        description=video_description,
+        publish_date=video_data['snippet']['publishedAt'],
+        thumbnail_url=video_data['snippet']['thumbnails']['medium']['url']
     )
     print(f'Inserted youtube_video record with id {youtube_video_record.id}')
 

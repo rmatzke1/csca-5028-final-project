@@ -51,9 +51,9 @@ class CollectorRunGateway:
             order by param_published_before desc
             limit 1;
         """
-        result = self.__db.query(statement=query, connection=conn)
+        rows = self.__db.query(statement=query, connection=conn)
         return map_result(
-            result,
+            rows,
             lambda row: CollectorRunRecord(
                 id=row["id"],
                 run_start=row["run_start"],

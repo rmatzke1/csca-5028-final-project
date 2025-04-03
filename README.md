@@ -16,6 +16,7 @@ If you are on Windows, I would suggest changing your default PyCharm terminal to
 ### Prerequisites
 
 - Python >= 3.10
+- Node.js >= 18.18
 - Docker
 - PyCharm Community Edition
 
@@ -100,7 +101,7 @@ docker-compose -f .local/docker-compose.yml up -d
 The first time you create this container, you will also need to run the **db-migration** run configuration.
 This will execute the database migration scripts which will update your local database to the latest state.
 
-Additional container management commands:
+Additional container management commands, for reference:
 ```
 # Stop the container withour removing
 docker-compose -f .local/docker-compose.yml stop
@@ -114,6 +115,21 @@ docker-compose -f .local/docker-compose.yml down
 
 If you have previously created a container and want to start from scratch, you should delete both the container
 and the local `.docker-data` directory before building a new one. 
+
+### Local Execution
+
+With the steps above completed, you can run the various components of this application.
+
+The general process would be:
+- Start the docker container and execute the **db-migration** run configuration, if you haven't already. 
+- Execute the **data-collector** run configuration several times to collect data.
+- Execute the **data-analyzer** run configuration several times to analyze the collected data.
+- Start the backend REST API by executing the **rest-api** run configuration.
+- Run the frontend web UI and navigate to http://localhost:3000 in a browser.
+
+Note that there is no run configuration for the frontend web UI. Follow the web-ui
+[README](./applications/web-ui/README.md) for setup instructions.
+
 
 ### Validation
 
@@ -152,7 +168,9 @@ redis-cli SMEMBERS video_data   # Get values in video_data set
 
 ## Credits
 
-- [initialcapacity/multiproject-python](https://github.com/initialcapacity/multiproject-python) - for providing
+- [initialcapacity/multiproject-python](https://github.com/initialcapacity/multiproject-python) - For providing
 ideas on how to structure the project/repository, and for providing some boilerplate code.
-- [Python Monorepo: An Example](https://www.tweag.io/blog/2023-04-04-python-monorepo-1/) - for providing ideas
+- [Python Monorepo: An Example](https://www.tweag.io/blog/2023-04-04-python-monorepo-1/) - For providing ideas
 on how to structure the project/repository.
+- [mui/material-ui](https://github.com/mui/material-ui/tree/master/examples/material-ui-nextjs-ts) - For providing
+Next.js + Material UI project starter code.

@@ -30,6 +30,6 @@ def get_video_data(channel_id: str, published_before: datetime, published_after:
             "key": cfg["YOUTUBE_API_KEY"],
             "published_before": published_before.isoformat() + "Z",
             "published_after": published_after.isoformat() + "Z",
-        },
+        }
     )
     return response.json()["items"]

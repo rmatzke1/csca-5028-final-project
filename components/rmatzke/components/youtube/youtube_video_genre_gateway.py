@@ -34,3 +34,31 @@ class YoutubeVideoGenreGateway:
             genre_id=genre_id,
             youtube_video_id=youtube_video_id
         )
+
+    def list_by_youtube_video_id(self, youtube_video_id: int, conn: Optional[Connection] = None) -> List[YoutubeVideoGenreRecord]:
+        query = """
+            select * from youtube_video_genre
+            where youtube_video_id = :youtube_video_id;
+        """
+        rows = self.__db.query(statement=query, connection=conn, youtube_video_id=youtube_video_id)
+        return map_results(
+            rows, lambda row: YoutubeVideoGenreRecord(
+                id=row["id"],
+                genre_id=row["genre_id"],
+                youtube_video_id=row["youtube_video_id"]
+            )
+        )
+
+    def list_by_genre_id(self, genre_id: int, conn: Optional[Connection] = None) -> List[YoutubeVideoGenreRecord]:
+        query = """
+            select * from youtube_video_genre
+            where genre_id = :genre_id;
+        """
+        rows = self.__db.query(statement=query, connection=conn, genre_id=genre_id)
+        return map_results(
+            rows, lambda row: YoutubeVideoGenreRecord(
+                id=row["id"],
+                genre_id=row["genre_id"],
+                youtube_video_id=row["youtube_video_id"]
+            )
+        )

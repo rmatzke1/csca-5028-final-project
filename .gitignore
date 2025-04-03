@@ -1,8 +1,14 @@
+# Directories to ignore
 __pycache__
 .docker-data
 .idea
+.next
 .venv
-.pytest_cache
+node_modules
+
+# Files to ignore
 .coverage
-htmlcov
+.DS_Store
 .env
+.pytest_cache
+htmlcov

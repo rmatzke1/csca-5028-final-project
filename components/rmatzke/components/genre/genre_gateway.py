@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Union
 from sqlalchemy import Connection
-from rmatzke.components.common.mapper_funcs import map_results
+from rmatzke.components.common.mapper_funcs import map_result, map_results
 from rmatzke.components.common.templates import DBTemplate
 
 
@@ -17,11 +17,27 @@ class GenreGateway:
 
     def list_all(self, conn: Optional[Connection] = None) -> List[GenreRecord]:
         query = """
-            select * from genre;
+            select * from genre
+            order by genre asc;
         """
-        result = self.__db.query(statement=query, connection=conn)
+        rows = self.__db.query(statement=query, connection=conn)
         return map_results(
-            result, lambda row: GenreRecord(
+            rows, lambda row: GenreRecord(
+                id=row["id"],
+                genre=row["genre"]
+            )
+        )
+
+    def get_by_id(self, id: int, conn: Optional[Connection] = None) -> Union[None, GenreRecord]:
+        query = """
+            select * from genre
+            where id = :id
+            limit 1;
+        """
+        rows = self.__db.query(statement=query, connection=conn, id=id)
+        return map_result(
+            rows,
+            lambda row: GenreRecord(
                 id=row["id"],
                 genre=row["genre"]
             )

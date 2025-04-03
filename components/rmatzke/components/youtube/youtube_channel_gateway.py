@@ -20,9 +20,9 @@ class YoutubeChannelGateway:
         query = """
             select * from youtube_channel;
         """
-        result = self.__db.query(statement=query, connection=conn)
+        rows = self.__db.query(statement=query, connection=conn)
         return map_results(
-            result, lambda row: YoutubeChannelRecord(
+            rows, lambda row: YoutubeChannelRecord(
                 id=row["id"],
                 youtube_handle=row["youtube_handle"],
                 youtube_channel_id=row["youtube_channel_id"]
@@ -34,9 +34,9 @@ class YoutubeChannelGateway:
             select * from youtube_channel
             where youtube_channel_id is not null;
         """
-        result = self.__db.query(statement=query, connection=conn)
+        rows = self.__db.query(statement=query, connection=conn)
         return map_results(
-            result, lambda row: YoutubeChannelRecord(
+            rows, lambda row: YoutubeChannelRecord(
                 id=row["id"],
                 youtube_handle=row["youtube_handle"],
                 youtube_channel_id=row["youtube_channel_id"]
@@ -48,9 +48,9 @@ class YoutubeChannelGateway:
             select * from youtube_channel
             where youtube_channel_id is null;
         """
-        result = self.__db.query(statement=query, connection=conn)
+        rows = self.__db.query(statement=query, connection=conn)
         return map_results(
-            result, lambda row: YoutubeChannelRecord(
+            rows, lambda row: YoutubeChannelRecord(
                 id=row["id"],
                 youtube_handle=row["youtube_handle"],
                 youtube_channel_id=row["youtube_channel_id"]

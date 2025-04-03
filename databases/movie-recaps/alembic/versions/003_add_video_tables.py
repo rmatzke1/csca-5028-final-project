@@ -46,8 +46,10 @@ def upgrade() -> None:
             id serial primary key,
             youtube_video_id varchar(255) not null unique,
             youtube_channel_id varchar(255) not null,
-            title varchar(255),
-            description varchar(255)
+            title varchar(255) not null,
+            description varchar(255),
+            publish_date timestamp not null,
+            thumbnail_url varchar(255)
         );
         
         create table youtube_video_genre (
