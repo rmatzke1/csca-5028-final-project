@@ -1,10 +1,13 @@
 # CSCA 5028 - Final Project
 
-For my final project, I have decided to create a movie recap application. This application contains:
+For my final project, I have decided to create a movie recap application. This project contains:
 
 - **Data Collector** - Pulls latest videos from a collection of YouTube movie recap channels.
-- **Data Analyzer** - Analyzes the collected recap videos to determine the genre.
-- **Web Application** - Frontend for displaying the movie recaps.
+- **Data Analyzer** - Analyzes the collected videos data to determine the genre.
+- **REST API** - Backend for serving data to the frontend via REST.
+- **Web UI** - Frontend for displaying analyzed video data to end users.
+
+Additionally, this project contains some reusable components, like database migration scripts and data access objects.
 
 ## Development
 
