@@ -11,8 +11,8 @@ Additionally, this project contains some reusable components, like database migr
 
 ## Development
 
-For running this project locally, I would recommend using PyCharm over VS Code for this project.
-It is much easier to manage multiple virtual environments / projects in PyCharm.
+For running this project locally, I would recommend using PyCharm over VS Code. It is much easier to manage multiple 
+virtual environments / projects in PyCharm, and the Run Configuration feature will be heavily used.
 
 If you are on Windows, I would suggest changing your default PyCharm terminal to Command Prompt instead of PowerShell.
 
@@ -20,7 +20,7 @@ If you are on Windows, I would suggest changing your default PyCharm terminal to
 
 - Python >= 3.10
 - Node.js >= 18.18
-- Docker
+- Docker Desktop
 - PyCharm Community Edition
 
 ### Environment Variables
