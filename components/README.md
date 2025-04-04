@@ -1,45 +1,49 @@
 # Components
 
-## Development
+## Setup Virtual Environment
 
-Open a new terminal before running the commands below.
-
-### Setup Virtual Environment
-
-Windows
 ```
+Windows
+------------------------------------
 cd components
 python -m venv .venv
 .venv\Scripts\activate
-```
+pip install -r ..\requirements.txt
+pip install -r requirements.txt
 
 Mac/Linux
-```
+------------------------------------
 cd components
 python3 -m venv .venv
 source .venv/bin/activate
-```
-
-### Install Dependencies
-
-Windows
-```
-pip install -r ..\requirements.txt
-pip install -r requirements.txt
-```
-
-Mac/Linux
-```
 pip install -r ../requirements.txt
 pip install -r requirements.txt
 ```
 
-### Validation
+## Unit / Integration Tests
 
-#### Unit Tests
+Prepare the environment:
+```
+Windows
+------------------------------------
+cd components
+.venv\Scripts\activate
+set TEST_DATABASE_URI=postgresql+psycopg2://db_user:password@localhost:5432/movie_recaps_test
 
+Mac/Linux
+------------------------------------
+cd components
+source .venv/bin/activate
+export TEST_DATABASE_URI=postgresql+psycopg2://db_user:password@localhost:5432/movie_recaps_test
+```
+
+You can now run the unit / integration tests:
 ```
 coverage run -m unittest discover
+```
+
+After you run the tests, you can use these commands for more details:
+```
 coverage report -m      # Print report
 coverage html           # Generate HTML report
 ```
