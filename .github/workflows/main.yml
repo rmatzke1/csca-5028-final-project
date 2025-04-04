@@ -22,7 +22,7 @@ jobs:
         run: |
           curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.15.2/cloud-sql-proxy.linux.amd64
           chmod +x cloud-sql-proxy
-          nohup ./cloud-sql-proxy --credentials-file sa-creds.json ${{ secrets.GCP_DB_INSTANCE }}
+          ./cloud-sql-proxy --credentials-file sa-creds.json ${{ secrets.GCP_DB_INSTANCE }} &
         shell: bash
       - name: 'Setup Python'
         uses: actions/setup-python@v5
