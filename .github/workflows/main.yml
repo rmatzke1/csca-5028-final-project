@@ -6,7 +6,7 @@ on:
 jobs:
   run-db-migration:
     environment: test
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: 'Checkout Repo'
         uses: actions/checkout@v3
