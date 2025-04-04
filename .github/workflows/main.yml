@@ -17,11 +17,13 @@ jobs:
           cat << EOF > ./sa-creds.json
           ${{ secrets.GCP_SA_DB_CREDS }}
           EOF
+        shell: bash
       - name: 'Setup Cloud SQL Auth Proxy'
         run: |
           curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.15.2/cloud-sql-proxy.linux.amd64
           chmod +x cloud-sql-proxy
-          ./cloud-sql-proxy --credentials-file sa-creds.json ${{ secrets.GCP_DB_INSTANCE }}
+          nohup ./cloud-sql-proxy --credentials-file sa-creds.json ${{ secrets.GCP_DB_INSTANCE }}
+        shell: bash
       - name: 'Setup Python'
         uses: actions/setup-python@v5
         with:
@@ -33,7 +35,7 @@ jobs:
         shell: bash
       - name: 'Run Migration'
         env:
-          DATABASE_URI: 'postgresql+psycopg2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}'
+          DATABASE_URI: 'postgresql+psycopg2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@127.0.0.1:5432/${{ secrets.DB_NAME }}'
         run: |
           echo $DATABASE_URI
           cd databases/movie-recaps
