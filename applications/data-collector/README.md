@@ -1,45 +1,19 @@
 # Data Collector
 
-## Development
+## Setup Virtual Environment
 
-Open a new terminal before running the commands below.
-
-### Setup Virtual Environment
-
-Windows
 ```
+Windows
+------------------------------------
 cd applications\data-collector
 python -m venv .venv
 .venv\Scripts\activate
-```
+pip install -r requirements.txt
 
 Mac/Linux
-```
+------------------------------------
 cd applications/data-collector
 python3 -m venv .venv
 source .venv/bin/activate
-```
-
-### Install Dependencies
-
-Windows
-```
-pip install -r ..\..\requirements.txt
 pip install -r requirements.txt
-```
-
-Mac/Linux
-```
-pip install -r ../../requirements.txt
-pip install -r requirements.txt
-```
-
-### Validation
-
-#### Unit Tests
-
-```
-coverage run -m unittest discover
-coverage report -m      # Print report
-coverage html           # Generate HTML report
 ```

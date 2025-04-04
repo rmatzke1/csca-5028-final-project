@@ -40,11 +40,6 @@ To set up these virtual environments, follow the instructions in the README file
 - [components](./components/README.md)
 - [databases/movie-recaps](./databases/movie-recaps/README.md)
 
-Note that there is a requirements file in the root of the repository as well as in each subproject.
-The one in the root is for project-wide dependencies. This would mostly be things like linting, testing, etc.
-If you want, you can setup another virtual environment in the root so that you can run validation from the root,
-covering all the subprojects at once.
-
 ### Run Configurations
 
 Several run configurations will be created to run the various applications. 
