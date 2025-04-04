@@ -12,11 +12,16 @@ jobs:
         uses: actions/checkout@v3
         with:
           sparse-checkout: databases
-      - name: 'Start Cloud SQL Auth Proxy'
-        uses: mattes/gce-cloudsql-proxy-action@v1
-        with:
-          creds: ${{ secrets.GCP_SA_DB_CREDS }}
-          instance: ${{ secrets.GCP_DB_INSTANCE }}
+      - name: 'Get Service Account Credentials'
+        run: |
+          cat << EOF > ./sa-creds.json
+          ${{ secrets.GCP_SA_DB_CREDS }}
+          EOF
+      - name: 'Setup Cloud SQL Auth Proxy'
+        run: |
+          curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.15.2/cloud-sql-proxy.linux.amd64
+          chmod +x cloud-sql-proxy
+          ./cloud-sql-proxy --credentials-file sa-creds.json ${{ secrets.GCP_DB_INSTANCE }}
       - name: 'Setup Python'
         uses: actions/setup-python@v5
         with:
@@ -27,9 +32,10 @@ jobs:
           pip install -r requirements.txt
         shell: bash
       - name: 'Run Migration'
+        env:
+          DATABASE_URI: 'postgresql+psycopg2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}'
         run: |
+          echo $DATABASE_URI
           cd databases/movie-recaps
           python migrate.py
         shell: bash
-        env:
-          DATABASE_URI: 'postgresql+psycopg2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}'
