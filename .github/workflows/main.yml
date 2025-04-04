@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: 'Checkout Repo'
         uses: actions/checkout@v3
-        with:
-          sparse-checkout: databases
       - name: 'Start Cloud SQL Auth Proxy'
         uses: mattes/gce-cloudsql-proxy-action@v1
         with:
@@ -23,13 +21,9 @@ jobs:
           python-version: '3.12'
       - name: 'Run Migration'
         run: |
-          ls
-          cat README.md
-          cd Test
-          ls
-#          cd ./databases/movie-recaps
-#          pip install -r requirements.txt
-#          python migrate.py
+          cd ./databases/movie-recaps
+          pip install -r requirements.txt
+          python migrate.py
         shell: bash
         env:
           DATABASE_URI: 'postgresql+psycopg2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}'
