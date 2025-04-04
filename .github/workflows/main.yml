@@ -28,6 +28,7 @@ jobs:
         shell: bash
       - name: 'Run Migration'
         run: |
+          cd databases/movie-recaps
           python migrate.py
         shell: bash
         env:
