@@ -1,0 +1,44 @@
+name: integration-tests
+run-name: integration-tests
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v3
+      - name: 'Service Account Credentials'
+        run: |
+          cat << EOF > ./sa-creds.json
+          ${{ secrets.GCP_SA_DB_CREDS }}
+          EOF
+        shell: bash
+      - name: 'Cloud SQL Auth Proxy'
+        run: |
+          curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.15.2/cloud-sql-proxy.linux.amd64
+          chmod +x cloud-sql-proxy
+          ./cloud-sql-proxy --credentials-file sa-creds.json ${{ secrets.GCP_DB_INSTANCE }} &
+        shell: bash
+      - name: 'Setup Python'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 'Install Dependencies'
+        run: |
+          cd components
+          pip install -r requirements.txt
+        shell: bash
+      - name: 'Run Tests'
+        env:
+          TEST_DATABASE_URI: 'postgresql+psycopg2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@127.0.0.1:5432/${{ secrets.DB_NAME }}'
+        run: |
+          cd components
+          coverage run -m unittest discover
+          coverage report -m
+        shell: bash

@@ -5,75 +5,13 @@ on:
     branches: [ 'main' ]
   workflow_dispatch:
 jobs:
-  run-db-migration:
-    runs-on: ubuntu-latest
-    environment: test
-    steps:
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v3
-        with:
-          sparse-checkout: databases
-      - name: 'Service Account Credentials'
-        run: |
-          cat << EOF > ./sa-creds.json
-          ${{ secrets.GCP_SA_DB_CREDS }}
-          EOF
-        shell: bash
-      - name: 'Cloud SQL Auth Proxy'
-        run: |
-          curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.15.2/cloud-sql-proxy.linux.amd64
-          chmod +x cloud-sql-proxy
-          ./cloud-sql-proxy --credentials-file sa-creds.json ${{ secrets.GCP_DB_INSTANCE }} &
-        shell: bash
-      - name: 'Setup Python'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: 'Install Dependencies'
-        run: |
-          cd databases/movie-recaps
-          pip install -r requirements.txt
-        shell: bash
-      - name: 'Run Migration'
-        env:
-          DATABASE_URI: 'postgresql+psycopg2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@127.0.0.1:5432/${{ secrets.DB_NAME }}'
-        run: |
-          cd databases/movie-recaps
-          python migrate.py
-        shell: bash
+  db-migration:
+    uses: ./.github/workflows/db-migration.yml
+    with:
+      environment: test
   run-tests:
     runs-on: ubuntu-latest
-    needs: [ run-db-migration ]
-    environment: test
-    steps:
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v3
-      - name: 'Service Account Credentials'
-        run: |
-          cat << EOF > ./sa-creds.json
-          ${{ secrets.GCP_SA_DB_CREDS }}
-          EOF
-        shell: bash
-      - name: 'Cloud SQL Auth Proxy'
-        run: |
-          curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.15.2/cloud-sql-proxy.linux.amd64
-          chmod +x cloud-sql-proxy
-          ./cloud-sql-proxy --credentials-file sa-creds.json ${{ secrets.GCP_DB_INSTANCE }} &
-        shell: bash
-      - name: 'Setup Python'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: 'Install Dependencies'
-        run: |
-          cd components
-          pip install -r requirements.txt
-        shell: bash
-      - name: 'Run Tests'
-        env:
-          TEST_DATABASE_URI: 'postgresql+psycopg2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@127.0.0.1:5432/${{ secrets.DB_NAME }}'
-        run: |
-          cd components
-          coverage run -m unittest discover
-          coverage report -m
-        shell: bash
+    needs: [ db-migration ]
+    uses: ./.github/workflows/integration-tests.yml
+    with:
+      environment: test
