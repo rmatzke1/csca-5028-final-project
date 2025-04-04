@@ -1,5 +1,7 @@
 name: main
 on:
+  push:
+    branches: ['main']
   workflow_dispatch:
 jobs:
   run-db-migration:
@@ -22,8 +24,10 @@ jobs:
       - name: 'Run Migration'
         run: |
           ls
-          echo "Test"
-#          cd movie-recaps
+          cat README.md
+          cd Test
+          ls
+#          cd ./databases/movie-recaps
 #          pip install -r requirements.txt
 #          python migrate.py
         shell: bash
