@@ -1,5 +1,4 @@
 name: main
-run-name: main
 on:
   push:
     branches: [ 'main' ]
@@ -7,10 +6,12 @@ on:
 jobs:
   db-migration:
     uses: ./.github/workflows/db-migration.yml
+    secrets: inherit
     with:
       environment: test
   run-tests:
     needs: [ db-migration ]
     uses: ./.github/workflows/integration-tests.yml
+    secrets: inherit
     with:
       environment: test

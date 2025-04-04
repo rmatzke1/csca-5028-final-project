@@ -1,5 +1,4 @@
 name: integration-tests
-run-name: integration-tests
 on:
   workflow_call:
     inputs:

@@ -1,5 +1,4 @@
 name: db-migration
-run-name: db-migration
 on:
   workflow_call:
     inputs:
