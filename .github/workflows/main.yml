@@ -9,7 +9,7 @@ jobs:
     secrets: inherit
     with:
       environment: test
-  run-tests:
+  integration-tests:
     needs: [ db-migration ]
     uses: ./.github/workflows/integration-tests.yml
     secrets: inherit
