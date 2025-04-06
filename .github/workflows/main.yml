@@ -13,5 +13,3 @@ jobs:
     needs: [ db-migration ]
     uses: ./.github/workflows/integration-tests.yml
     secrets: inherit
-    with:
-      environment: test
