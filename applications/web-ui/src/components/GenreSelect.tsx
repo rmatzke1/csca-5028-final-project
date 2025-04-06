@@ -2,17 +2,22 @@
 
 import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 
 
+interface Genre {
+    id: number;
+    genre: string;
+}
+
 interface GenreSelectProps {
-    selectedGenre: number | string;
-    onGenreChange: (genre: number | string) => void;
+    selectedGenre: string;
+    onGenreChange: (genre: string) => void;
 }
 
 export default function GenreSelect({ selectedGenre, onGenreChange }: GenreSelectProps) {
-    const [data, setData] = React.useState(null);
+    const [data, setData] = React.useState<Genre[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
 
@@ -44,14 +49,14 @@ export default function GenreSelect({ selectedGenre, onGenreChange }: GenreSelec
         return <Typography sx={{ mt: 3, color: 'red' }}>Error loading genres: {error.message}</Typography>;
     }
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const handleChange = (event: SelectChangeEvent) => {
         onGenreChange(event.target.value);
     };
 
     return (
         <Select value={ selectedGenre } onChange={ handleChange } sx={{ mt: 3, minWidth: 250 }} >
             <MenuItem value="0">All genres</MenuItem>
-            {data.map((genre: { id: number, genre: string }) => (
+            {data.map((genre: Genre) => (
                 <MenuItem key={ genre.id } value={ genre.id }>{ genre.genre }</MenuItem>
             ))}
         </Select>

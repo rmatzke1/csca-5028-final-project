@@ -8,8 +8,8 @@ import VideoList from '@/components/VideoList';
 
 
 export default function Home() {
-    const [selectedGenre, setSelectedGenre] = React.useState<number | string>('0');
-    const handleGenreChange = (genre: number | string) => {
+    const [selectedGenre, setSelectedGenre] = React.useState('0');
+    const handleGenreChange = (genre: string) => {
         setSelectedGenre(genre);
     };
 

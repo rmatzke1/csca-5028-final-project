@@ -6,14 +6,26 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Genre from '@/components/GenreSelect';
 
+
+interface Video {
+    id: number;
+    youtube_video_id: string;
+    youtube_channel_id: string;
+    title: string;
+    description: string;
+    publish_date: Date;
+    thumbnail_url: string;
+    genres: Genre[];
+}
 
 interface VideoListProps {
-    selectedGenre: number | string;
+    selectedGenre: string;
 }
 
 export default function VideoList({ selectedGenre }: VideoListProps) {
-    const [data, setData] = React.useState(null);
+    const [data, setData] = React.useState<Video[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
 
@@ -46,12 +58,14 @@ export default function VideoList({ selectedGenre }: VideoListProps) {
     }
 
     const sortedVideos = data
-        ? data.sort((a: any, b: any) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime())
+        ? data.sort((a: Video, b: Video) => b.publish_date - a.publish_date)
         : [];
 
     return (
         <Box sx={{ pt: 4, display: 'flex', flexDirection: "column", gap: 2 }}>
-            {sortedVideos.map((video: any) => (
+            {data
+            .sort((a: Video, b: Video) => b.publish_date - a.publish_date)
+            .map((video: Video) => (
                 <Paper key={ video.id } elevation={4} sx={{ width: 1 }}>
                     <Box sx={{ m: 3 }}>
                         <Typography variant="h6">{ he.decode(video.title) }</Typography>
@@ -63,8 +77,8 @@ export default function VideoList({ selectedGenre }: VideoListProps) {
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, marginBottom: 1 }}>
                             {video.genres
-                            .sort((a, b) => a.genre.localeCompare(b.genre))
-                            .map((genre: { id: number, genre: string }) => (
+                            .sort((a: Genre, b: Genre) => a.genre.localeCompare(b.genre))
+                            .map((genre: Genre) => (
                                 <Typography key={ genre.id } sx={{ px: 1.5, py: 1, borderRadius: 1, backgroundColor: '#4db6ac', color: 'white' }}>
                                     { genre.genre }
                                 </Typography>
