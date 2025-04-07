@@ -31,7 +31,7 @@ jobs:
           -f applications/data-collector/Dockerfile \
           .
         shell: bash
-#      - name: 'Push Image to Artifact Registry'
-#        run: |
-#          docker push us-central1-docker.pkg.dev/csca-5028-final-project-455714/docker-test/data-collector:latest
-#        shell: bash
+      - name: 'Push Image to Artifact Registry'
+        run: |
+          docker push us-central1-docker.pkg.dev/csca-5028-final-project-455714/docker-test/data-collector:latest
+        shell: bash
