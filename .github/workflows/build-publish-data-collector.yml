@@ -1,4 +1,4 @@
-name: deploy-data-collector
+name: build-publish-data-collector
 on:
   workflow_call:
     inputs:
@@ -6,9 +6,11 @@ on:
         required: true
         type: string
 jobs:
-  deploy-data-collector:
+  build-publish-data-collector:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    env:
+      CLOUD_REPO_NAME: docker-${{ inputs.environment }}
     steps:
       - name: 'Checkout Repo'
         uses: actions/checkout@v4
@@ -23,12 +25,12 @@ jobs:
       - name: 'Build Image'
         run: |
           docker build \
-          -t us-central1-docker.pkg.dev/csca-5028-final-project-455714/docker-test/data-collector:latest \
+          -t ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ env.CLOUD_REPO_NAME }}/data-collector:latest \
           -f applications/data-collector/Dockerfile \
           .
         shell: bash
       - name: 'Push Image to Artifact Registry'
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
-          docker push us-central1-docker.pkg.dev/csca-5028-final-project-455714/docker-test/data-collector:latest
+          gcloud auth configure-docker ${{ vars.CLOUD_REGISTRY_URL }}
+          docker push ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ env.CLOUD_REPO_NAME }}/data-collector:latest
         shell: bash
