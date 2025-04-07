@@ -135,6 +135,66 @@ Secrets exposed as environment variables:
 - Name: `YOUTUBE_API_KEY`, Secret: `YOUTUBE_API_KEY`, Version: latest
 - Name: `DATABASE_URI`, Secret: `DATABASE_URI_DEV`, Version: latest
 
+### data-analyzer-dev
+
+#### General Settings
+
+- Container image URL: Select the data-analyzer image with "latest" tag
+- Job name: `data-analyzer-dev`
+- Number of tasks: 5
+
+#### Security
+
+- Service account: `cloud-run-dev`
+
+#### Connections
+
+- Add the `postgres-dev` Cloud SQL connection
+- Connect to a VPC for outbound traffic
+  - Send traffic directly to a VPC
+    - Network: default
+    - Subnet: default
+  - Route only requests to private IPs to the VPC
+
+#### Volumes
+
+Add a volume for the `GEMINI_API_KEY` secret:
+- Volume type: Secret
+- Volume name: `gemini-api-key`
+- Secret: `GEMINI_API_KEY`
+- Path: `GEMINI_API_KEY`
+- Version: latest
+
+Add a volume for the `DATABASE_URI` secret:
+- Volume type: Secret
+- Volume name: `database-uri-dev`
+- Secret: `DATABASE_URI_DEV`
+- Path: `DATABASE_URI_DEV`
+- Version: latest
+
+#### Containers - Volume Mounts
+
+Mount the `gemini-api-key` volume:
+- Name: gemini-api-key (Secret)
+- Mount path: `/secrets-a`
+
+Mount the `database-uri-dev` volume:
+- Name: database-uri-dev (Secret)
+- Mount path: `/secrets-b`
+
+#### Containers - Variables & Secrets
+
+Environment variables:
+- `DATETIME_FORMAT`: `%Y-%m-%d %H:%M:%S`
+- `REDIS_HOST`: Enter the IP of the `datastore-dev` Redis instance
+- `REDIS_PORT`: `6379`
+- `REDIS_SET_KEY`: `video_data`
+- `GEMINI_MODEL`: `gemini-2.0-flash`
+
+Secrets exposed as environment variables:
+- Name: `GEMINI_API_KEY`, Secret: `GEMINI_API_KEY`, Version: latest
+- Name: `DATABASE_URI`, Secret: `DATABASE_URI_DEV`, Version: latest
+
 ## Service Accounts
 
 The following service accounts and associated roles will need to be created.
