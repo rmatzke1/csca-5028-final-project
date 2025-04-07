@@ -1,26 +1,26 @@
 name: main
 on:
-  push:
-    branches: [ 'main' ]
+#  push:
+#    branches: [ 'main' ]
   workflow_dispatch:
 jobs:
-#  db-migration-test:
-#    uses: ./.github/workflows/db-migration.yml
-#    secrets: inherit
-#    with:
-#      environment: test
-#  integration-tests:
-#    needs: [ db-migration-test ]
-#    uses: ./.github/workflows/integration-tests.yml
-#    secrets: inherit
-#  db-migration-dev:
-#    needs: [ integration-tests ]
-#    uses: ./.github/workflows/db-migration.yml
-#    secrets: inherit
-#    with:
-#      environment: dev
+  db-migration-test:
+    uses: ./.github/workflows/db-migration.yml
+    secrets: inherit
+    with:
+      environment: test
+  integration-tests:
+    needs: [ db-migration-test ]
+    uses: ./.github/workflows/integration-tests.yml
+    secrets: inherit
+  db-migration-dev:
+    needs: [ integration-tests ]
+    uses: ./.github/workflows/db-migration.yml
+    secrets: inherit
+    with:
+      environment: dev
   docker-image-data-collector:
-#    needs: [ db-migration-dev ]
+    needs: [ db-migration-dev ]
     uses: ./.github/workflows/docker-image.yml
     permissions:
       contents: 'read'
