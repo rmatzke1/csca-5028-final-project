@@ -15,6 +15,9 @@ jobs:
 #    secrets: inherit
   deploy-data-collector:
     uses: ./.github/workflows/deploy-data-collector.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     secrets: inherit
     with:
       environment: test
