@@ -42,6 +42,8 @@ def main():
     run_start = datetime.now()
     total_video_count = 0
 
+    print(f"Finding videos published between {published_after} and {published_before}...")
+
     # Loop through all channels to find videos and store video data
     youtube_channels = youtube_channel_gateway.list_with_channel_ids()
     for channel in youtube_channels:
@@ -49,7 +51,7 @@ def main():
         for item in video_data:
             rdb.sadd(cfg["REDIS_SET_KEY"], json.dumps(item))
         total_video_count += len(video_data)
-        print(f"Found {len(video_data)} videos for channel @{channel.youtube_handle} published between {published_after} and {published_before}.")
+        print(f"Found {len(video_data)} videos for channel @{channel.youtube_handle}")
 
     run_end = datetime.now()
     collector_run_gateway.insert(run_start, run_end, published_before, published_after, total_video_count)
