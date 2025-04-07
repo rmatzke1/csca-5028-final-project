@@ -29,6 +29,6 @@ jobs:
         shell: bash
       - name: 'Push Image to Artifact Registry'
         run: |
-          gcloud auth configure docker us-central1-docker.pkg.dev
+          gcloud auth configure-docker us-central1-docker.pkg.dev
           docker push us-central1-docker.pkg.dev/csca-5028-final-project-455714/docker-test/data-collector:latest
         shell: bash
