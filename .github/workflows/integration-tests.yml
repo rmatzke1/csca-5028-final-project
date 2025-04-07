@@ -2,7 +2,13 @@ name: integration-tests
 on:
   workflow_call:
 jobs:
+  db-migration:
+    uses: ./.github/workflows/db-migration.yml
+    secrets: inherit
+    with:
+      environment: test
   integration-tests:
+    needs: [ db-migration ]
     runs-on: ubuntu-latest
     environment: test
     steps:

@@ -1,4 +1,4 @@
-name: docker-image
+name: build-publish
 on:
   workflow_call:
     inputs:
@@ -15,7 +15,7 @@ on:
         required: true
         type: string
 jobs:
-  docker-image:
+  build-publish:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:

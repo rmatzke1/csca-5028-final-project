@@ -4,24 +4,18 @@ on:
 #    branches: [ 'main' ]
   workflow_dispatch:
 jobs:
-  db-migration-test:
-    uses: ./.github/workflows/db-migration.yml
-    secrets: inherit
-    with:
-      environment: test
   integration-tests:
-    needs: [ db-migration-test ]
     uses: ./.github/workflows/integration-tests.yml
     secrets: inherit
-  db-migration-dev:
+  db-migration:
     needs: [ integration-tests ]
     uses: ./.github/workflows/db-migration.yml
     secrets: inherit
     with:
       environment: dev
-  docker-image-data-collector:
-    needs: [ db-migration-dev ]
-    uses: ./.github/workflows/docker-image.yml
+  data-collector:
+    needs: [ db-migration ]
+    uses: ./.github/workflows/build-publish.yml
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -31,3 +25,15 @@ jobs:
       dockerfile: applications/data-collector/Dockerfile
       repository-name: docker-dev
       image-name: data-collector
+  data-analyzer:
+    needs: [ db-migration ]
+    uses: ./.github/workflows/build-publish.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
+      dockerfile: applications/data-analyzer/Dockerfile
+      repository-name: docker-dev
+      image-name: data-analyzer
