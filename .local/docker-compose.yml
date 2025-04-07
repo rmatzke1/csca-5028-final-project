@@ -17,7 +17,7 @@ services:
     container_name: datastore
     restart: always
     ports:
-      - 6379:6379
+      - "6379:6379"
     volumes:
       - ../.docker-data/.redis-data:/data
   data-collector:
@@ -50,3 +50,14 @@ services:
     environment:
       - DATABASE_URI=postgresql+psycopg2://db_user:password@database:5432/movie_recaps_dev
       - REDIS_HOST=datastore
+  rest-api:
+    image: rest-api
+    container_name: rest-api
+    restart: always
+    build:
+      context: ..
+      dockerfile: ./applications/rest-api/Dockerfile
+    environment:
+      - DATABASE_URI=postgresql+psycopg2://db_user:password@database:5432/movie_recaps_dev
+    ports:
+      - "8000:8000"

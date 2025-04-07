@@ -37,3 +37,15 @@ jobs:
       dockerfile: applications/data-analyzer/Dockerfile
       repository-name: docker-dev
       image-name: data-analyzer
+  rest-api:
+    needs: [ db-migration ]
+    uses: ./.github/workflows/build-publish.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
+      dockerfile: applications/rest-api/Dockerfile
+      repository-name: docker-dev
+      image-name: rest-api

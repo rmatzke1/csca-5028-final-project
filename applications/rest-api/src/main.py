@@ -37,6 +37,11 @@ youtube_video_service = YoutubeVideoService(
 )
 
 
+@app.get("/api/health")
+def health():
+    return { "status": "OK" }
+
+
 @app.get("/api/genres")
 def genres():
     return genre_gateway.list_all()
