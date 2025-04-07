@@ -1,15 +1,20 @@
 name: main
 on:
-#  push:
-#    branches: [ 'main' ]
+  push:
+    branches: [ 'main' ]
   workflow_dispatch:
 jobs:
-  db-migration:
-    uses: ./.github/workflows/db-migration.yml
+#  db-migration:
+#    uses: ./.github/workflows/db-migration.yml
+#    secrets: inherit
+#    with:
+#      environment: test
+#  integration-tests:
+#    needs: [ db-migration ]
+#    uses: ./.github/workflows/integration-tests.yml
+#    secrets: inherit
+  deploy-data-collector:
+    uses: ./.github/workflows/deploy-data-collector.yml
     secrets: inherit
     with:
       environment: test
-  integration-tests:
-    needs: [ db-migration ]
-    uses: ./.github/workflows/integration-tests.yml
-    secrets: inherit
