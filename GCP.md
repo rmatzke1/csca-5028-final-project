@@ -4,7 +4,8 @@
 
 The following APIs & Services will need to be enabled:
 - Artifact Registry API
-- Cloud Run Admin API
+- Cloud Run Admin APII
+- Cloud Scheduler AP
 - Cloud SQL Admin API
 - Compute Engine API
 - Google Cloud Memorystore for Redis API
@@ -144,6 +145,7 @@ You will also need to create and export a JSON key for each service account.
 
 **cloud-run-dev**
 - Cloud Run Developer
+- Cloud Run Invoker
 - Cloud SQL Client
 
 **cloud-sql-dev**
