@@ -6,4 +6,5 @@ COPY ../../applications/rest-api/requirements.txt /home/${PROJECT_NAME}/applicat
 COPY ../../applications/rest-api/src /home/${PROJECT_NAME}/applications/rest-api/src
 WORKDIR /home/${PROJECT_NAME}/applications/rest-api
 RUN pip install -r requirements.txt
+EXPOSE 8000
 CMD ["python", "src/main.py"]
