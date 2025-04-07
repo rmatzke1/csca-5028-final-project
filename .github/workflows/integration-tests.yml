@@ -7,7 +7,7 @@ jobs:
     environment: test
     steps:
       - name: 'Checkout Repo'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: 'Cloud SQL Service Account Credentials'
         run: |
           cat << EOF > ./cloud-sql-creds.json

@@ -11,7 +11,7 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - name: 'Checkout Repo'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           sparse-checkout: databases
       - name: 'Cloud SQL Service Account Credentials'
