@@ -14,12 +14,12 @@ on:
       image-name:
         required: true
         type: string
-    outputs:
-      tagged-image-url: ${{ steps.build-image.outputs.tagged_image_url }}
 jobs:
   build-publish:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    outputs:
+      tagged-image-url: ${{ steps.build-image.outputs.tagged_image_url }}
     env:
       IMAGE_URL: ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ inputs.repository-name }}/${{ inputs.image-name }}
       IMAGE_TAG: ${GITHUB_SHA::8}
