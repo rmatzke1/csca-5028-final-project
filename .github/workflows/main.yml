@@ -51,25 +51,14 @@ jobs:
       dockerfile: applications/rest-api/Dockerfile
       repository-name: docker-dev
       image-name: rest-api
-
-  debug-job:
+  rest-api-deploy:
     needs: [ rest-api-build ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-      - name: "Debug1"
-        run: echo "${{ needs.rest-api-build.outputs.tagged-image-url }}"
-
-
-#  rest-api-deploy:
-#    needs: [ rest-api-build ]
-#    uses: ./.github/workflows/deploy.yml
-#    permissions:
-#      contents: 'read'
-#      id-token: 'write'
-#    secrets: inherit
-#    with:
-#      environment: dev
-#      service-name: rest-api-dev
-#      image-url: ${{ needs.rest-api-build.outputs.tagged-image-url }}
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
+      service-name: rest-api-dev
+      image-url: ${{ needs.rest-api-build.outputs.tagged-image-url }}
