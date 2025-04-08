@@ -53,7 +53,7 @@ jobs:
           docker push ${{ env.IMAGE_URL }} --all-tags
         shell: bash
       - name: 'Deploy Cloud Run Service'
-        if: ${{ inputs.deploy-as-service == 'true' }}
+        if: ${{ inputs.deploy-as-service == true }}
         run: |
           gcloud run deploy ${{ inputs.service-name }} --image ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}
         shell: bash
