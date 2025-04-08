@@ -51,14 +51,15 @@ jobs:
       dockerfile: applications/rest-api/Dockerfile
       repository-name: docker-dev
       image-name: rest-api
+
   debug-job:
     needs: [ rest-api-build ]
     runs-on: ubuntu-latest
     steps:
       - name: "Debug1"
-        run: echo "${{ needs.rest-api-build.outputs.tagged-image-url }}"
-      - name: "Debug2"
-        run: echo "${{ needs.rest-api-build.build-publish.outputs.tagged-image-url }}"
+        run: echo "${{ needs.rest-api-build.outputs.tagged_image_url  }}"
+
+
 #  rest-api-deploy:
 #    needs: [ rest-api-build ]
 #    uses: ./.github/workflows/deploy.yml

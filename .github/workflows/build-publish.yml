@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     outputs:
-      tagged-image-url: ${{ steps.build-image.outputs.tagged_image_url }}
+      tagged_image_url: ${{ steps.build-image.outputs.tagged_image_url }}
     env:
       IMAGE_URL: ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ inputs.repository-name }}/${{ inputs.image-name }}
       IMAGE_TAG: ${GITHUB_SHA::8}
@@ -49,7 +49,3 @@ jobs:
           gcloud auth configure-docker ${{ vars.CLOUD_REGISTRY_URL }}
           docker push ${{ env.IMAGE_URL }} --all-tags
         shell: bash
-#      - name: 'Output Tagged Image URL'
-#        id: output
-#        run: |
-#          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> "$GITHUB_OUTPUT"
