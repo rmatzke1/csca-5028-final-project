@@ -16,7 +16,7 @@ export default function Home() {
     return (
         <Container sx={{ my: 5 }}>
             <Typography variant="h3">Recap Aggregator</Typography>
-            <Typography variant="h5">CSCA 5028 Final Project - Ryan Matzke</Typography>
+            <Typography variant="h5">CSCA 5028 Final Project - Ryan T. Matzke</Typography>
             <GenreSelect selectedGenre={ selectedGenre } onGenreChange={ handleGenreChange } />
             <VideoList selectedGenre={ selectedGenre } />
         </Container>
