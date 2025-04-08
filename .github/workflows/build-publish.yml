@@ -42,7 +42,7 @@ jobs:
           -t ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }} \
           -f ${{ inputs.dockerfile }} \
           .
-          echo "tagged_image_url=$IMAGE_URL:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
         shell: bash
       - name: 'Push Image to Cloud Artifact Registry'
         run: |
