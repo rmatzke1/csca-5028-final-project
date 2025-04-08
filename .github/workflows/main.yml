@@ -40,7 +40,7 @@ jobs:
 #      image-name: data-analyzer
 #      deploy-as-service: false
   rest-api:
-    needs: [ db-migration ]
+#    needs: [ db-migration ]
     uses: ./.github/workflows/build-publish.yml
     permissions:
       contents: 'read'

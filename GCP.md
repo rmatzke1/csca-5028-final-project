@@ -14,13 +14,24 @@ The following APIs & Services will need to be enabled:
 - Secret Manager API
 - YouTube Data API v3
 
-## Artifact Registry
+## Service Accounts
 
-### docker-dev
+The following service accounts and associated roles will need to be created.
+You will also need to create and export a JSON key for each service account.
 
-Create an Artifact Registry repository with the following:
-- Name: `docker-dev`
-- Format: Docker
+**cloud-registry-dev**
+- Artifact Registry Writer
+
+**cloud-run-dev**
+- Cloud Run Developer
+- Cloud Run Invoker
+- Cloud SQL Client
+
+**cloud-sql-dev**
+- Cloud SQL Client
+
+**cloud-sql-test**
+- Cloud SQL Client
 
 ## Cloud SQL
 
@@ -69,6 +80,14 @@ In Secret Manager, create the following secrets:
 - `DATABASE_URI_DEV`: `postgresql+psycopg2://db_user_dev:<password>/movie_recaps_dev?host=/cloudsql/<project id>:<region>:postgres-dev`
 - `GEMINI_API_KEY`: `<GEMINI_API_KEY>`
 - `YOUTUBE_API_KEY`: `<YOUTUBE_API_KEY>`
+
+## Artifact Registry
+
+### docker-dev
+
+Create an Artifact Registry repository with the following:
+- Name: `docker-dev`
+- Format: Docker
 
 ## Cloud Run Jobs
 
@@ -195,21 +214,10 @@ Secrets exposed as environment variables:
 - Name: `GEMINI_API_KEY`, Secret: `GEMINI_API_KEY`, Version: latest
 - Name: `DATABASE_URI`, Secret: `DATABASE_URI_DEV`, Version: latest
 
-## Service Accounts
+## Cloud Run Services
 
-The following service accounts and associated roles will need to be created.
-You will also need to create and export a JSON key for each service account.
+In Cloud Run, create the following services:
 
-**cloud-registry-dev**
-- Artifact Registry Writer
+### rest-api
 
-**cloud-run-dev**
-- Cloud Run Developer
-- Cloud Run Invoker
-- Cloud SQL Client
-
-**cloud-sql-dev**
-- Cloud SQL Client
-
-**cloud-sql-test**
-- Cloud SQL Client
+TODO
