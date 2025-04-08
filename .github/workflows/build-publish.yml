@@ -58,7 +58,6 @@ jobs:
       - name: 'Summary'
         run: |
           echo """
-            ### Build and Publish
             Published images:
             - ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}
             - ${{ env.IMAGE_URL }}:latest

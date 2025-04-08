@@ -33,10 +33,9 @@ jobs:
       - name: 'Summary'
         run: |
           echo """
-            ### Deploy Cloud Run Service
             - Deployment Status: Success
-            - Environment: ${{ inputs.environment }}
             - Service Name: ${{ inputs.service-name }}
+            - Environment: ${{ inputs.environment }}            
             - Deployed Image: ${{ inputs.image-url }}
           """ >> $GITHUB_STEP_SUMMARY
         shell: bash

@@ -45,7 +45,6 @@ jobs:
       - name: 'Summary'
         run: |
           echo """
-            ### Database Migration
             - Migration Status: Success
             - Environment: ${{ inputs.environment }}          
           """ >> $GITHUB_STEP_SUMMARY

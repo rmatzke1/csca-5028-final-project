@@ -42,9 +42,9 @@ jobs:
           cd components
           coverage run -m unittest discover
           COVERAGE_REPORT=$(coverage report -m)
-        shell: bash
-      - name: 'Summary'
-        run: |
-          echo "### Integration Tests" >> $GITHUB_STEP_SUMMARY
-          echo "$COVERAGE_REPORT" >> $GITHUB_STEP_SUMMARY
+          echo """
+            ```
+            $COVERAGE_REPORT
+            ```
+          """ >> $GITHUB_STEP_SUMMARY
         shell: bash
