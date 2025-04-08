@@ -59,7 +59,7 @@ jobs:
       - name: "Debug1"
         run: echo "${{ needs.rest-api-build.outputs.tagged-image-url }}"
       - name: "Debug2"
-        run: echo "${{ needs.rest-api-build.build-publish.outputs.tagged-image-url }}"
+        run: echo "${{ needs.rest-api-build.outputs.tagged_image_url }}"
 
 
 #  rest-api-deploy:
