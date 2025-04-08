@@ -25,7 +25,6 @@ jobs:
       dockerfile: applications/data-collector/Dockerfile
       repository-name: docker-dev
       image-name: data-collector
-      deploy-as-service: false
   data-analyzer:
     needs: [ db-migration ]
     uses: ./.github/workflows/build-publish.yml
