@@ -99,7 +99,7 @@ In Cloud Run, create the following jobs:
 
 #### General Settings
 
-- Container image URL: Select the data-collector image with "latest" tag, then remove the tag from the URL
+- Container image URL: Select the `data-collector` image with `latest` tag from the `docker-dev` repository, then remove the tag from the URL
 - Job name: `data-collector-dev`
 - Number of tasks: 1
 
@@ -160,7 +160,7 @@ Secrets exposed as environment variables:
 
 #### General Settings
 
-- Container image URL: Select the data-analyzer image with "latest" tag, then remove the tag from the URL
+- Container image URL: Select the `data-analyzer` image with `latest` tag from the `docker-dev` repository, then remove the tag from the URL
 - Job name: `data-analyzer-dev`
 - Number of tasks: 5
 
@@ -224,28 +224,15 @@ In Cloud Run, create the following services:
 
 #### General Settings
 
-- Container image URL: Select the rest-api image with "latest" tag
+- Container image URL: Select the latest `rest-api` image from the `docker-dev` repository
 - Service name: `rest-api-dev`
 - Uncheck "Use Cloud IAM to authenticate incoming requests"
 - Manual Scaling, Number of instances: 1
-- Revision Scaling, minimum instances: 1, maximum instances: 1
+- Ingress: All
 
 Add a Cloud SQL connection for the `postgres-dev` database.
 
-#### Security
-
-- Service account: `cloud-run-dev`
-
-#### Volumes
-
-Add a volume for the `DATABASE_URI` secret:
-- Volume type: Secret
-- Volume name: `database-uri-dev`
-- Secret: `DATABASE_URI_DEV`
-- Path: `DATABASE_URI_DEV`
-- Version: latest
-
-#### Containers - Settings
+#### Container Settings
 
 - Container port: 8000
 - Startup probe: tcp 8000 every 240s
@@ -257,13 +244,44 @@ Add a volume for the `DATABASE_URI` secret:
   - Timeout: 3s
   - Failure threshold: 3
 
-#### Containers - Volume Mounts
+#### Container Settings - Security
+
+- Service account: `cloud-run-dev`
+
+#### Container Settings - Volumes
+
+Add a volume for the `DATABASE_URI` secret:
+- Volume type: Secret
+- Volume name: `database-uri-dev`
+- Secret: `DATABASE_URI_DEV`
+- Path: `DATABASE_URI_DEV`
+- Version: latest
+
+#### Container Settings - Volume Mounts
 
 Mount the `database-uri-dev` volume:
 - Name: database-uri-dev (Secret)
 - Mount path: `/secrets-a`
 
-#### Containers - Variables & Secrets
+#### Container Settings - Variables & Secrets
 
 Secrets exposed as environment variables:
 - Name: `DATABASE_URI`, Secret: `DATABASE_URI_DEV`, Version: latest
+
+### web-ui
+
+#### General Settings
+
+- Container image URL: Select the latest `web-ui` image from the `docker-dev` repository
+- Service name: `web-ui-dev`
+- Uncheck "Use Cloud IAM to authenticate incoming requests"
+- Manual Scaling, Number of instances: 1
+- Ingress: All
+
+#### Container Settings
+
+- Container port: 3000
+
+#### Container Settings - Security
+
+- Service account: `cloud-run-dev`
