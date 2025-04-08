@@ -58,4 +58,4 @@ jobs:
       - name: 'Output'
         id: output
         run: |
-          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> "$GITHUB_OUTPUT"
+          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
