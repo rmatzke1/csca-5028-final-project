@@ -42,10 +42,14 @@ jobs:
           -t ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }} \
           -f ${{ inputs.dockerfile }} \
           .
-          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> "$GITHUB_OUTPUT"
         shell: bash
       - name: 'Push Image to Cloud Artifact Registry'
         run: |
           gcloud auth configure-docker ${{ vars.CLOUD_REGISTRY_URL }}
           docker push ${{ env.IMAGE_URL }} --all-tags
         shell: bash
+#      - name: 'Output Tagged Image URL'
+#        id: output
+#        run: |
+#          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> "$GITHUB_OUTPUT"

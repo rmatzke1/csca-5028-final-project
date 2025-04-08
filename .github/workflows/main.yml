@@ -59,14 +59,14 @@ jobs:
         run: echo "${{ needs.rest-api-build.outputs.tagged-image-url }}"
       - name: "Debug2"
         run: echo "${{ needs.rest-api-build.build-publish.outputs.tagged-image-url }}"
-  rest-api-deploy:
-    needs: [ rest-api-build ]
-    uses: ./.github/workflows/deploy.yml
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    secrets: inherit
-    with:
-      environment: dev
-      service-name: rest-api-dev
-      image-url: ${{ needs.rest-api-build.outputs.tagged-image-url }}
+#  rest-api-deploy:
+#    needs: [ rest-api-build ]
+#    uses: ./.github/workflows/deploy.yml
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#    secrets: inherit
+#    with:
+#      environment: dev
+#      service-name: rest-api-dev
+#      image-url: ${{ needs.rest-api-build.outputs.tagged-image-url }}
