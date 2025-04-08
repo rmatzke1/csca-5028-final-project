@@ -61,3 +61,14 @@ services:
       - DATABASE_URI=postgresql+psycopg2://db_user:password@database:5432/movie_recaps_dev
     ports:
       - "8000:8000"
+  web-ui:
+    image: web-ui
+    container_name: web-ui
+    restart: always
+    build:
+      context: ..
+      dockerfile: ./applications/web-ui/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"

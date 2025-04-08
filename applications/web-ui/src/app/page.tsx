@@ -3,8 +3,8 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import GenreSelect from '@/components/GenreSelect';
-import VideoList from '@/components/VideoList';
+import GenreSelect from '../components/GenreSelect';
+import VideoList from '../components/VideoList';
 
 
 export default function Home() {

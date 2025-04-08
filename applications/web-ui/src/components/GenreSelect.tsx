@@ -24,7 +24,10 @@ export default function GenreSelect({ selectedGenre, onGenreChange }: GenreSelec
     React.useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/genres');
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+                console.log(`NEXT_PUBLIC_API_URL: ${apiUrl}`);
+
+                const response = await fetch(`${apiUrl}/api/genres`);
                 if (!response.ok) {
                     console.log(response);
                     throw new Error(`HTTP error! status: ${response.status}`);

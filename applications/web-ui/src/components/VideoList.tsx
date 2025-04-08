@@ -6,8 +6,12 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Genre from '@/components/GenreSelect';
 
+
+interface Genre {
+    id: number;
+    genre: string;
+}
 
 interface Video {
     id: number;
@@ -32,7 +36,10 @@ export default function VideoList({ selectedGenre }: VideoListProps) {
     React.useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/videos?genre_id=${selectedGenre}`);
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+                console.log(`NEXT_PUBLIC_API_URL: ${apiUrl}`);
+
+                const response = await fetch(`${apiUrl}/api/videos?genre_id=${selectedGenre}`);
                 if (!response.ok) {
                     console.log(response);
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -57,14 +64,10 @@ export default function VideoList({ selectedGenre }: VideoListProps) {
         return <Typography sx={{ mt: 3, color: 'red' }}>Error loading videos: {error.message}</Typography>;
     }
 
-    const sortedVideos = data
-        ? data.sort((a: Video, b: Video) => b.publish_date - a.publish_date)
-        : [];
-
     return (
         <Box sx={{ pt: 4, display: 'flex', flexDirection: "column", gap: 2 }}>
             {data
-            .sort((a: Video, b: Video) => b.publish_date - a.publish_date)
+            .sort((a: Video, b: Video) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime())
             .map((video: Video) => (
                 <Paper key={ video.id } elevation={4} sx={{ width: 1 }}>
                     <Box sx={{ m: 3 }}>
