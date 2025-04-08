@@ -39,7 +39,7 @@ jobs:
 #      repository-name: docker-dev
 #      image-name: data-analyzer
 #      deploy-as-service: false
-  rest-api:
+  rest-api-build:
 #    needs: [ db-migration ]
     uses: ./.github/workflows/build-publish.yml
     permissions:
@@ -51,5 +51,14 @@ jobs:
       dockerfile: applications/rest-api/Dockerfile
       repository-name: docker-dev
       image-name: rest-api
-      deploy-as-service: true
+  rest-api-deploy:
+    needs: [ rest-api-build ]
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
       service-name: rest-api-dev
+      image-url: ${{ needs.rest-api-build.outputs.tagged-image-url }}

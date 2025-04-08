@@ -1,0 +1,32 @@
+name: deploy
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      service-name:
+        required: true
+        type: string
+      image-url:
+        required: true
+        type: string
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+      - name: 'GCloud Authentication'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT_CREDS }}
+      - name: 'Setup GCloud CLI'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          version: '>= 363.0.0'
+      - name: 'Deploy Cloud Run Service'
+        run: |
+          gcloud run deploy ${{ inputs.service-name }} --region us-central1 --image ${{ inputs.image-url }}
+        shell: bash
