@@ -55,3 +55,12 @@ jobs:
         run: |
           echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
         shell: bash
+      - name: 'Summary'
+        run: |
+          echo """
+            ### Build and Publish
+            Published images:
+            - ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}
+            - ${{ env.IMAGE_URL }}:latest
+          """ >> $GITHUB_STEP_SUMMARY
+        shell: bash

@@ -42,3 +42,11 @@ jobs:
           cd databases/movie-recaps
           python migrate.py
         shell: bash
+      - name: 'Summary'
+        run: |
+          echo """
+            ### Database Migration
+            - Migration Status: Success
+            - Environment: ${{ inputs.environment }}          
+          """ >> $GITHUB_STEP_SUMMARY
+        shell: bash
