@@ -16,3 +16,14 @@ jobs:
       repository-name: docker-dev
       image-name: web-ui
       build-args: --build-arg NEXT_PUBLIC_API_URL="${{ vars.REST_API_URL_DEV }}"
+  web-ui-deploy:
+    needs: [ web-ui-build ]
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
+      service-name: web-ui-dev
+      image-url: ${{ needs.web-ui-build.outputs.tagged-image-url }}
