@@ -15,4 +15,4 @@ jobs:
       dockerfile: applications/web-ui/Dockerfile
       repository-name: docker-dev
       image-name: web-ui
-      build-args: --build-arg NEXT_PUBLIC_API_URL="${{ vars.REST_API_URL }}"
+      build-args: --build-arg NEXT_PUBLIC_API_URL="${{ vars.REST_API_URL_DEV }}"
