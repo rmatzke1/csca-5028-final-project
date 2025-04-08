@@ -47,6 +47,6 @@ jobs:
         run: |
           echo "Test Results:" >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
-          cat out.txt >> $GITHUB_STEP_SUMMARY
+          cat components/out.txt >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
         shell: bash
