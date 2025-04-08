@@ -4,43 +4,43 @@ on:
     branches: [ 'main' ]
   workflow_dispatch:
 jobs:
-#  integration-tests:
-#    uses: ./.github/workflows/integration-tests.yml
-#    secrets: inherit
-#  db-migration:
-#    needs: [ integration-tests ]
-#    uses: ./.github/workflows/db-migration.yml
-#    secrets: inherit
-#    with:
-#      environment: dev
-#  data-collector:
-#    needs: [ db-migration ]
-#    uses: ./.github/workflows/build-publish.yml
-#    permissions:
-#      contents: 'read'
-#      id-token: 'write'
-#    secrets: inherit
-#    with:
-#      environment: dev
-#      dockerfile: applications/data-collector/Dockerfile
-#      repository-name: docker-dev
-#      image-name: data-collector
-#      deploy-as-service: false
-#  data-analyzer:
-#    needs: [ db-migration ]
-#    uses: ./.github/workflows/build-publish.yml
-#    permissions:
-#      contents: 'read'
-#      id-token: 'write'
-#    secrets: inherit
-#    with:
-#      environment: dev
-#      dockerfile: applications/data-analyzer/Dockerfile
-#      repository-name: docker-dev
-#      image-name: data-analyzer
-#      deploy-as-service: false
+  integration-tests:
+    uses: ./.github/workflows/integration-tests.yml
+    secrets: inherit
+  db-migration:
+    needs: [ integration-tests ]
+    uses: ./.github/workflows/db-migration.yml
+    secrets: inherit
+    with:
+      environment: dev
+  data-collector:
+    needs: [ db-migration ]
+    uses: ./.github/workflows/build-publish.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
+      dockerfile: applications/data-collector/Dockerfile
+      repository-name: docker-dev
+      image-name: data-collector
+      deploy-as-service: false
+  data-analyzer:
+    needs: [ db-migration ]
+    uses: ./.github/workflows/build-publish.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
+      dockerfile: applications/data-analyzer/Dockerfile
+      repository-name: docker-dev
+      image-name: data-analyzer
+      deploy-as-service: false
   rest-api-build:
-#    needs: [ db-migration ]
+    needs: [ db-migration ]
     uses: ./.github/workflows/build-publish.yml
     permissions:
       contents: 'read'
