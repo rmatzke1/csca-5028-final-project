@@ -56,10 +56,10 @@ jobs:
     needs: [ rest-api-build ]
     runs-on: ubuntu-latest
     steps:
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
       - name: "Debug1"
         run: echo "${{ needs.rest-api-build.outputs.tagged-image-url }}"
-      - name: "Debug2"
-        run: echo "${{ needs.rest-api-build.outputs.tagged_image_url }}"
 
 
 #  rest-api-deploy:

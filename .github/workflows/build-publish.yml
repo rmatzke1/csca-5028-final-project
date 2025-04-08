@@ -14,6 +14,9 @@ on:
       image-name:
         required: true
         type: string
+    outputs:
+      tagged-image-url:
+        value: ${{ jobs.build-publish.outputs.tagged-image-url }}
 jobs:
   build-publish:
     runs-on: ubuntu-latest
@@ -22,7 +25,6 @@ jobs:
       tagged-image-url: ${{ steps.output.outputs.tagged_image_url }}
     env:
       IMAGE_URL: ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ inputs.repository-name }}/${{ inputs.image-name }}
-      IMAGE_TAG: ${{ github.sha }}
     steps:
       - name: 'Checkout Repo'
         uses: actions/checkout@v4
@@ -34,11 +36,15 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
           version: '>= 363.0.0'
+      - name: 'Generate Image Tag'
+        id: generate-image-tag
+        run: |
+          echo "image_tag=${{ github.sha::0:8 }}" >> $GITHUB_OUTPUT
       - name: 'Build Image'
         run: |
           docker build \
           -t ${{ env.IMAGE_URL }}:latest \
-          -t ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }} \
+          -t ${{ env.IMAGE_URL }}:${{ steps.generate-image-tag.outputs.image_tag }} \
           -f ${{ inputs.dockerfile }} \
           .
         shell: bash
@@ -47,15 +53,8 @@ jobs:
           gcloud auth configure-docker ${{ vars.CLOUD_REGISTRY_URL }}
           docker push ${{ env.IMAGE_URL }} --all-tags
         shell: bash
-      - name: 'Debug variables'
-        run: |
-          echo "IMAGE_URL: ${{ env.IMAGE_URL }}"
-          echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-          echo "tagged_1: ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}"
-          echo "tagged_2: $IMAGE_URL:$IMAGE_TAG"
-          echo "tagged_3: $tagged_image_url"
-          echo "Test: Test"
-      - name: 'Output'
+      - name: 'Output Tagged Image URL'
         id: output
         run: |
-          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ steps.generate-image-tag.outputs.image_tag }}" >> $GITHUB_OUTPUT
+        shell: bash
