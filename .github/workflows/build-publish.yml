@@ -14,12 +14,20 @@ on:
       image-name:
         required: true
         type: string
+      deploy-as-service:
+        required: false
+        type: boolean
+        default: false
+      service-name:
+        required: false
+        type: string
 jobs:
   build-publish:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
-      IMAGE_NAME: ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ inputs.repository-name }}/${{ inputs.image-name }}
+      IMAGE_URL: ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ inputs.repository-name }}/${{ inputs.image-name }}
+      IMAGE_TAG: ${GITHUB_SHA::8}
     steps:
       - name: 'Checkout Repo'
         uses: actions/checkout@v4
@@ -34,13 +42,18 @@ jobs:
       - name: 'Build Image'
         run: |
           docker build \
-          -t ${{ env.IMAGE_NAME }}:latest \
-          -t ${{ env.IMAGE_NAME }}:${GITHUB_SHA::8} \
+          -t ${{ env.IMAGE_URL }}:latest \
+          -t ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }} \
           -f ${{ inputs.dockerfile }} \
           .
         shell: bash
       - name: 'Push Image to Cloud Artifact Registry'
         run: |
           gcloud auth configure-docker ${{ vars.CLOUD_REGISTRY_URL }}
-          docker push ${{ env.IMAGE_NAME }} --all-tags
+          docker push ${{ env.IMAGE_URL }} --all-tags
+        shell: bash
+      - name: 'Deploy Cloud Run Service'
+        if: ${{ inputs.deploy-as-service == 'true' }}
+        run: |
+          gcloud run deploy ${{ inputs.service-name }} --image ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}
         shell: bash

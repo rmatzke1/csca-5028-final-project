@@ -25,6 +25,7 @@ jobs:
       dockerfile: applications/data-collector/Dockerfile
       repository-name: docker-dev
       image-name: data-collector
+      deploy-as-service: false
   data-analyzer:
     needs: [ db-migration ]
     uses: ./.github/workflows/build-publish.yml
@@ -37,6 +38,7 @@ jobs:
       dockerfile: applications/data-analyzer/Dockerfile
       repository-name: docker-dev
       image-name: data-analyzer
+      deploy-as-service: false
   rest-api:
     needs: [ db-migration ]
     uses: ./.github/workflows/build-publish.yml
@@ -49,3 +51,5 @@ jobs:
       dockerfile: applications/rest-api/Dockerfile
       repository-name: docker-dev
       image-name: rest-api
+      deploy-as-service: true
+      service-name: rest-api-dev
