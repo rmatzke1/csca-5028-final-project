@@ -1,7 +1,7 @@
 name: main
 on:
-#  push:
-#    branches: [ 'main' ]
+  push:
+    branches: [ 'main' ]
   workflow_dispatch:
 jobs:
   integration-tests:
@@ -60,3 +60,27 @@ jobs:
       environment: dev
       service-name: rest-api-dev
       image-url: ${{ needs.rest-api-build.outputs.tagged-image-url }}
+  web-ui-build:
+    needs: [ db-migration ]
+    uses: ./.github/workflows/build-publish.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
+      dockerfile: applications/web-ui/Dockerfile
+      repository-name: docker-dev
+      image-name: web-ui
+      build-args: --build-arg NEXT_PUBLIC_API_URL="${{ vars.REST_API_URL_DEV }}"
+  web-ui-deploy:
+    needs: [ web-ui-build ]
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    secrets: inherit
+    with:
+      environment: dev
+      service-name: web-ui-dev
+      image-url: ${{ needs.web-ui-build.outputs.tagged-image-url }}
