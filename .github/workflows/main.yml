@@ -37,7 +37,6 @@ jobs:
       dockerfile: applications/data-analyzer/Dockerfile
       repository-name: docker-dev
       image-name: data-analyzer
-      deploy-as-service: false
   rest-api-build:
     needs: [ db-migration ]
     uses: ./.github/workflows/build-publish.yml
