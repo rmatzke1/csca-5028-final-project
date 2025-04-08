@@ -27,7 +27,13 @@ If you are on Windows, I would suggest changing your default PyCharm terminal to
 ### Environment Variables
 
 In the `.local` directory, copy the `.env.example` file to a new file called `.env`.
-Then, fill in all the required values in the file. Each application in this project uses this same `.env` file.
+Then, fill in all the required values in the file. 
+Each application in this project (except the web-ui) uses this same `.env` file.
+
+In the `applications/web-ui` directory, create a new file called `.env` and fill in with:
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
 
 ### Virtual Environments
 
@@ -42,7 +48,7 @@ To set up these virtual environments, follow the instructions in the README file
 
 ### Run Configurations
 
-Several run configurations will be created to run the various applications. 
+Several run configurations will be created to run the various applications locally. 
 Note that before creating the run configurations, you may need to add the Python interpreter for each virtual
 environment to the project. This can be done in File -> Settings -> Project -> Python Interpreter.
 
@@ -104,6 +110,8 @@ the following Python run configurations.
 | Environment variables  | `PYTHONBUFFERED=1;DATABASE_URI=postgresql+psycopg2://db_user:password@localhost:5432/movie_recaps_test;` |
 | Path to ".env" files   |                                                                                                          |
 
+## Execution
+
 ### Docker Container
 
 Run this command to create a container for the application:
@@ -116,61 +124,19 @@ This will execute the database migration scripts which will update your local da
 You should also run the **db-migration [test]** run configuration so that the test database is up to date.
 
 If you have previously created a container and want to start from scratch, you should delete both the container
-and the local `.docker-data` directory before building a new one. 
+and the local `.docker-data` directory before building a new one.
 
-### Execution
+### Local Execution
 
-With the steps above completed, you can run the various applications contained in this project.
+If you want to run any of the subprojects locally instead of in the docker container, you can follow the steps below.
 
 The general process would be:
-- Start the docker container and execute the **db-migration** run configuration, if you haven't already. 
+- Start the docker container and execute the **db-migration** run configuration, if you haven't already.
+- Stop all containers except for the **database** and **datastore** containers.
 - Execute the **data-collector** run configuration several times to collect data.
 - Execute the **data-analyzer** run configuration several times to analyze the collected data.
-- Start the backend REST API by executing the **rest-api** run configuration.
+- Start the REST API by executing the **rest-api** run configuration.
 - Run the frontend web UI and navigate to http://localhost:3000 in a browser.
 
 Note that there is no run configuration for the frontend web UI. Follow the web-ui
 [README](./applications/web-ui/README.md) for setup instructions.
-
-### Validation
-
-#### Unit Tests
-
-Unit tests will need to be executed from within each subproject directory. See the README for each subproject
-for more information.
-
-#### Database Queries
-
-To connect to the PostgreSQL database running in your container, first open the movie-recap-database container 
-in Docker Desktop, then navigate to the Exec tab, then enter the following commands:
-
-```
-psql -U db_user -d movie_recaps_dev
-```
-
-Now you can run psql commands or raw queries, for example:
-
-```
-\dt
-select * from youtube_channel;
-```
-
-#### Redis Queries
-
-To connect to the Redis instance running in your container, first open the movie-recap-datastore container 
-in Docker Desktop, then navigate to the Exec tab. Below are some sample commands you can run:
-
-```
-redis-cli --scan                # List keys
-redis-cli TYPE video_data       # Get type of video_data key
-redis-cli SMEMBERS video_data   # Get values in video_data set
-```
-
-## Credits
-
-- [initialcapacity/multiproject-python](https://github.com/initialcapacity/multiproject-python) - For providing
-ideas on how to structure the project/repository, and for providing some boilerplate code.
-- [Python Monorepo: An Example](https://www.tweag.io/blog/2023-04-04-python-monorepo-1/) - For providing ideas
-on how to structure the project/repository.
-- [mui/material-ui](https://github.com/mui/material-ui/tree/master/examples/material-ui-nextjs-ts) - For providing
-Next.js + Material UI project starter code.
