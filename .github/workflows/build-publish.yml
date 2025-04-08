@@ -22,7 +22,7 @@ jobs:
       tagged-image-url: ${{ steps.output.outputs.tagged_image_url }}
     env:
       IMAGE_URL: ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ inputs.repository-name }}/${{ inputs.image-name }}
-      IMAGE_TAG: ${GITHUB_SHA::8}
+      IMAGE_TAG: ${{ github.sha }}
     steps:
       - name: 'Checkout Repo'
         uses: actions/checkout@v4
