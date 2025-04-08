@@ -14,6 +14,9 @@ on:
       image-name:
         required: true
         type: string
+      build-args:
+        required: false
+        type: string
     outputs:
       tagged-image-url:
         value: ${{ jobs.build-publish.outputs.tagged-image-url }}
@@ -40,6 +43,7 @@ jobs:
       - name: 'Build Image'
         run: |
           docker build \
+          ${{ inputs.build-args }} \
           -t ${{ env.IMAGE_URL }}:latest \
           -t ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }} \
           -f ${{ inputs.dockerfile }} \
