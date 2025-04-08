@@ -23,9 +23,11 @@ You will also need to create and export a JSON key for each service account.
 - Artifact Registry Writer
 
 **cloud-run-dev**
+- Artifact Registry Reader
 - Cloud Run Developer
 - Cloud Run Invoker
 - Cloud SQL Client
+- Service Account User
 
 **cloud-sql-dev**
 - Cloud SQL Client
