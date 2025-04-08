@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     outputs:
-      tagged-image-url: ${{ steps.build-image.outputs.tagged_image_url }}
+      tagged-image-url: ${{ steps.output.outputs.tagged_image_url }}
     env:
       IMAGE_URL: ${{ vars.CLOUD_REGISTRY_URL }}/${{ vars.GCP_PROJECT_ID }}/${{ inputs.repository-name }}/${{ inputs.image-name }}
       IMAGE_TAG: ${GITHUB_SHA::8}
@@ -35,21 +35,19 @@ jobs:
         with:
           version: '>= 363.0.0'
       - name: 'Build Image'
-        id: build-image
         run: |
           docker build \
           -t ${{ env.IMAGE_URL }}:latest \
           -t ${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }} \
           -f ${{ inputs.dockerfile }} \
           .
-          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> "$GITHUB_OUTPUT"
         shell: bash
       - name: 'Push Image to Cloud Artifact Registry'
         run: |
           gcloud auth configure-docker ${{ vars.CLOUD_REGISTRY_URL }}
           docker push ${{ env.IMAGE_URL }} --all-tags
         shell: bash
-      - name: Debug variables
+      - name: 'Debug variables'
         run: |
           echo "IMAGE_URL: ${{ env.IMAGE_URL }}"
           echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
@@ -57,3 +55,7 @@ jobs:
           echo "tagged_2: $IMAGE_URL:$IMAGE_TAG"
           echo "tagged_3: $tagged_image_url"
           echo "Test: Test"
+      - name: 'Output'
+        id: output
+        run: |
+          echo "tagged_image_url=${{ env.IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> "$GITHUB_OUTPUT"
