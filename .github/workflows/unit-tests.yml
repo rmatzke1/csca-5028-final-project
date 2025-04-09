@@ -26,5 +26,6 @@ jobs:
         shell: bash
       - name: 'Summary'
         run: |
+          cd applications/data-collector
           cat out.txt >> $GITHUB_STEP_SUMMARY
         shell: bash
