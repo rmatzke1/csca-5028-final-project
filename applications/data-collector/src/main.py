@@ -10,6 +10,9 @@ from rmatzke.components.youtube.youtube_channel_gateway import YoutubeChannelGat
 
 
 def main():
+    print("Starting data-collector run...")
+    run_start = datetime.now()
+
     # Setup database connections
     db = sqlalchemy.create_engine(cfg["DATABASE_URI"])
     db_template = DBTemplate(db)
@@ -24,7 +27,7 @@ def main():
     for channel in new_youtube_channels:
         youtube_channel_id = youtube_api.get_channel_id_by_handle(channel.youtube_handle)
         youtube_channel_gateway.set_channel_id(channel.id, youtube_channel_id)
-        print(f'Set youtube_channel.youtube_channel_id to {youtube_channel_id} for handle {channel.youtube_handle}')
+        print(f'-Set youtube_channel.youtube_channel_id to {youtube_channel_id} for handle {channel.youtube_handle}')
 
     # Get latest run and determine publish date parameters
     latest_run = collector_run_gateway.get_latest()
@@ -36,13 +39,12 @@ def main():
         published_after = published_before - timedelta(days=cfg["COLLECTOR_RUN_DELTA"])
 
     if published_after > datetime.now():
-        print("All currently published video have already been collected. Exiting.")
+        print("-All currently published video have already been collected. Exiting.")
         exit()
 
-    run_start = datetime.now()
-    total_video_count = 0
+    print(f"-Finding videos published between {published_after} and {published_before}...")
 
-    print(f"Finding videos published between {published_after} and {published_before}...")
+    total_video_count = 0
 
     # Loop through all channels to find videos and store video data
     youtube_channels = youtube_channel_gateway.list_with_channel_ids()
@@ -51,11 +53,12 @@ def main():
         for item in video_data:
             rdb.sadd(cfg["REDIS_SET_KEY"], json.dumps(item))
         total_video_count += len(video_data)
-        print(f"Found {len(video_data)} videos for channel @{channel.youtube_handle}")
+        print(f"-Found {len(video_data)} videos for channel @{channel.youtube_handle}")
 
     run_end = datetime.now()
     collector_run_gateway.insert(run_start, run_end, published_before, published_after, total_video_count)
-    print(f"Run started at {run_start}, ended at {run_end}, and found {total_video_count} total videos.")
+
+    print(f"Run complete. Started at {run_start.strftime(cfg["DATETIME_FORMAT"])}, ended at {run_end.strftime(cfg["DATETIME_FORMAT"])}, and found {total_video_count} total videos.")
 
 
 if __name__ == "__main__":
