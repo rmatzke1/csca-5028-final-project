@@ -14,8 +14,6 @@ def get_channel_id_by_handle(handle: str) -> str:
             "key": cfg["YOUTUBE_API_KEY"],
         },
     )
-    # if response.status_code == 403:
-    #     raise requests.exceptions.HTTPError("Rate limited!")
     return response.json()["items"][0]["id"]
 
 
