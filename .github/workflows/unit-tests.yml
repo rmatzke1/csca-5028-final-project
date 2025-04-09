@@ -23,13 +23,8 @@ jobs:
           cd applications/data-collector
           coverage run -m unittest discover
           coverage report -m > out.txt
-          echo "```" >> $GITHUB_STEP_SUMMARY
-          cat out.txt >> $GITHUB_STEP_SUMMARY
-          echo "```" >> $GITHUB_STEP_SUMMARY
         shell: bash
       - name: 'Summary'
         run: |
-          cd applications/data-collector
-          ls
-          cat out.txt
+          cat out.txt >> $GITHUB_STEP_SUMMARY
         shell: bash
