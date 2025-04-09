@@ -29,6 +29,7 @@ jobs:
           cd applications/data-collector
           cat out.txt
           echo "Test Report" >> $GITHUB_STEP_SUMMARY
-          echo "```$(cat out.txt)```" >> $GITHUB_STEP_SUMMARY
-#          cat out.txt >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          cat out.txt >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
         shell: bash
