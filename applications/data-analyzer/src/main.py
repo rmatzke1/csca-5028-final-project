@@ -86,5 +86,6 @@ def main():
 
     print(f"Run complete. Started at {run_start.strftime(cfg["DATETIME_FORMAT"])}, ended at {run_end.strftime(cfg["DATETIME_FORMAT"])}.")
 
+
 if __name__ == "__main__":
     main()

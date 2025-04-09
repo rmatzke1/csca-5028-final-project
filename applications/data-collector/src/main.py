@@ -50,10 +50,11 @@ def main():
     youtube_channels = youtube_channel_gateway.list_with_channel_ids()
     for channel in youtube_channels:
         video_data = youtube_api.get_video_data(channel.youtube_channel_id, published_before, published_after)
-        for item in video_data:
-            rdb.sadd(cfg["REDIS_SET_KEY"], json.dumps(item))
-        total_video_count += len(video_data)
-        print(f"-Found {len(video_data)} videos for channel @{channel.youtube_handle}")
+        if video_data:
+            for item in video_data:
+                rdb.sadd(cfg["REDIS_SET_KEY"], json.dumps(item))
+            total_video_count += len(video_data)
+            print(f"-Found {len(video_data)} videos for channel @{channel.youtube_handle}")
 
     run_end = datetime.now()
     collector_run_gateway.insert(run_start, run_end, published_before, published_after, total_video_count)

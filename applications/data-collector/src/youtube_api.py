@@ -1,7 +1,7 @@
 import requests
 from config import cfg
 from datetime import datetime
-from typing import List
+from typing import List, Union
 
 
 def get_channel_id_by_handle(handle: str) -> str:
@@ -17,7 +17,7 @@ def get_channel_id_by_handle(handle: str) -> str:
     return response.json()["items"][0]["id"]
 
 
-def get_video_data(channel_id: str, published_before: datetime, published_after: datetime) -> List:
+def get_video_data(channel_id: str, published_before: datetime, published_after: datetime) -> Union[List, None]:
     response = requests.get(
         url="https://youtube.googleapis.com/youtube/v3/search",
         params={
@@ -30,4 +30,9 @@ def get_video_data(channel_id: str, published_before: datetime, published_after:
             "published_after": published_after.isoformat() + "Z",
         }
     )
-    return response.json()["items"]
+    response_json = response.json()
+    if "items" not in response_json:
+        print(f"Unexpected response: {response_json}")
+        return None
+
+    return response_json["items"]
