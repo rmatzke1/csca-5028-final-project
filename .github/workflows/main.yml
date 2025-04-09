@@ -1,86 +1,88 @@
 name: main
 on:
-#  push:
-#    branches: [ 'main' ]
+  push:
+    branches: [ 'main' ]
   workflow_dispatch:
 jobs:
-  integration-tests:
-    uses: ./.github/workflows/integration-tests.yml
-    secrets: inherit
-  db-migration:
-    needs: [ integration-tests ]
-    uses: ./.github/workflows/db-migration.yml
-    secrets: inherit
-    with:
-      environment: dev
-  data-collector:
-    needs: [ db-migration ]
-    uses: ./.github/workflows/build-publish.yml
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    secrets: inherit
-    with:
-      environment: dev
-      dockerfile: applications/data-collector/Dockerfile
-      repository-name: docker-dev
-      image-name: data-collector
-  data-analyzer:
-    needs: [ db-migration ]
-    uses: ./.github/workflows/build-publish.yml
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    secrets: inherit
-    with:
-      environment: dev
-      dockerfile: applications/data-analyzer/Dockerfile
-      repository-name: docker-dev
-      image-name: data-analyzer
-  rest-api-build:
-    needs: [ db-migration ]
-    uses: ./.github/workflows/build-publish.yml
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    secrets: inherit
-    with:
-      environment: dev
-      dockerfile: applications/rest-api/Dockerfile
-      repository-name: docker-dev
-      image-name: rest-api
-  rest-api-deploy:
-    needs: [ rest-api-build ]
-    uses: ./.github/workflows/deploy.yml
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    secrets: inherit
-    with:
-      environment: dev
-      service-name: rest-api-dev
-      image-url: ${{ needs.rest-api-build.outputs.tagged-image-url }}
-  web-ui-build:
-    needs: [ db-migration ]
-    uses: ./.github/workflows/build-publish.yml
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    secrets: inherit
-    with:
-      environment: dev
-      dockerfile: applications/web-ui/Dockerfile
-      repository-name: docker-dev
-      image-name: web-ui
-      build-args: --build-arg NEXT_PUBLIC_API_URL="${{ vars.REST_API_URL_DEV }}"
-  web-ui-deploy:
-    needs: [ web-ui-build ]
-    uses: ./.github/workflows/deploy.yml
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    secrets: inherit
-    with:
-      environment: dev
-      service-name: web-ui-dev
-      image-url: ${{ needs.web-ui-build.outputs.tagged-image-url }}
+  unit-tests:
+    uses: ./.github/workflows/unit-tests.yml
+#  integration-tests:
+#    uses: ./.github/workflows/integration-tests.yml
+#    secrets: inherit
+#  db-migration:
+#    needs: [ integration-tests ]
+#    uses: ./.github/workflows/db-migration.yml
+#    secrets: inherit
+#    with:
+#      environment: dev
+#  data-collector:
+#    needs: [ db-migration ]
+#    uses: ./.github/workflows/build-publish.yml
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#    secrets: inherit
+#    with:
+#      environment: dev
+#      dockerfile: applications/data-collector/Dockerfile
+#      repository-name: docker-dev
+#      image-name: data-collector
+#  data-analyzer:
+#    needs: [ db-migration ]
+#    uses: ./.github/workflows/build-publish.yml
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#    secrets: inherit
+#    with:
+#      environment: dev
+#      dockerfile: applications/data-analyzer/Dockerfile
+#      repository-name: docker-dev
+#      image-name: data-analyzer
+#  rest-api-build:
+#    needs: [ db-migration ]
+#    uses: ./.github/workflows/build-publish.yml
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#    secrets: inherit
+#    with:
+#      environment: dev
+#      dockerfile: applications/rest-api/Dockerfile
+#      repository-name: docker-dev
+#      image-name: rest-api
+#  rest-api-deploy:
+#    needs: [ rest-api-build ]
+#    uses: ./.github/workflows/deploy.yml
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#    secrets: inherit
+#    with:
+#      environment: dev
+#      service-name: rest-api-dev
+#      image-url: ${{ needs.rest-api-build.outputs.tagged-image-url }}
+#  web-ui-build:
+#    needs: [ db-migration ]
+#    uses: ./.github/workflows/build-publish.yml
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#    secrets: inherit
+#    with:
+#      environment: dev
+#      dockerfile: applications/web-ui/Dockerfile
+#      repository-name: docker-dev
+#      image-name: web-ui
+#      build-args: --build-arg NEXT_PUBLIC_API_URL="${{ vars.REST_API_URL_DEV }}"
+#  web-ui-deploy:
+#    needs: [ web-ui-build ]
+#    uses: ./.github/workflows/deploy.yml
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#    secrets: inherit
+#    with:
+#      environment: dev
+#      service-name: web-ui-dev
+#      image-url: ${{ needs.web-ui-build.outputs.tagged-image-url }}
